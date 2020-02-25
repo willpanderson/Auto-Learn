@@ -1,2 +1,4 @@
 # AutoLearn
-Machine learing Android app for CSE3310: Fundamentals of Software Engineering class taken in Spring 2020. 
+A machine-learning app developed for the Android platform.
+
+WORK IN PROGRESS

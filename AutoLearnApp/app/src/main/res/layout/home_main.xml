@@ -36,28 +36,6 @@
         app:layout_constraintVertical_bias="0.92"
         app:srcCompat="@drawable/insert_picture_button" />
 
-    <ScrollView
-        android:id="@+id/results"
-        android:layout_width="361dp"
-        android:layout_height="475dp"
-        android:background="#1b1a1a"
-        android:fadeScrollbars="true"
-        android:fadingEdge="horizontal"
-        android:isScrollContainer="false"
-        android:orientation="horizontal"
-        android:scrollbarStyle="insideOverlay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.46">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-    </ScrollView>
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -65,12 +43,10 @@
         android:layout_margin="0dp"
         android:background="#0099CC"
         android:elevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/results"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/AppTitle"
@@ -83,7 +59,7 @@
             android:textSize="30sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="7dp" />
-        
+
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

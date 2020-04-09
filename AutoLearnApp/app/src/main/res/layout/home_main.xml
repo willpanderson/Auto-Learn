@@ -37,9 +37,15 @@
         app:srcCompat="@drawable/insert_picture_button" />
 
     <ScrollView
+        android:id="@+id/results"
         android:layout_width="361dp"
         android:layout_height="475dp"
         android:background="#1b1a1a"
+        android:fadeScrollbars="true"
+        android:fadingEdge="horizontal"
+        android:isScrollContainer="false"
+        android:orientation="horizontal"
+        android:scrollbarStyle="insideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,21 +55,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="horizontal" />
     </ScrollView>
 
-    <TableRow
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="392dp"
         android:layout_height="55dp"
+        android:layout_margin="5dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/rounded_blue_border"
+        android:background="#0099CC"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044">
+        app:layout_constraintVertical_bias="0.05">
 
+        <TextView
+            android:id="@+id/AppTitle"
+            android:layout_width="223dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="14sp"
+            android:text="AutoLearn"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="30sp" />
+        <!--/*
         <ImageButton
             android:id="@+id/SettingsButton"
             android:layout_width="78dp"
@@ -94,7 +115,7 @@
             android:contentDescription="Button to display profile page"
             android:contextClickable="true"
             app:srcCompat="@drawable/user" />
-
-    </TableRow>
+-->
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

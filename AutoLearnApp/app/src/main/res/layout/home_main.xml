@@ -60,62 +60,30 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="392dp"
-        android:layout_height="55dp"
-        android:layout_margin="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
         android:background="#0099CC"
         android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/results"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/AppTitle"
-            android:layout_width="223dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:lineSpacingExtra="14sp"
             android:text="AutoLearn"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="30sp" />
-        <!--/*
-        <ImageButton
-            android:id="@+id/SettingsButton"
-            android:layout_width="78dp"
-            android:layout_height="match_parent"
-            android:background="#00FFFFFF"
-            android:clickable="true"
-            android:contentDescription="Button to display settings"
-            android:contextClickable="true"
-            app:srcCompat="@drawable/menu" />
-
-        <TextView
-            android:id="@+id/AppTitle"
-            android:layout_width="223dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:lineSpacingExtra="14sp"
-            android:text="AutoLearn"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="30sp" />
-
-        <ImageButton
-            android:id="@+id/ProfileButton"
-            android:layout_width="89dp"
-            android:layout_height="match_parent"
-            android:background="#00FFFFFF"
-            android:clickable="true"
-            android:contentDescription="Button to display profile page"
-            android:contextClickable="true"
-            app:srcCompat="@drawable/user" />
--->
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="7dp" />
+        
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

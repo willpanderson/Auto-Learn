@@ -3,18 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/navigation_menu1" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/stats"
+            android:title="Model Statistics" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/about"
+            android:icon="@drawable/info"
             android:title="Model Information" />
+
+    </group>
+
+    <group android:id="@+id/navigation_menu2" android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="Log out" />
         <item
             android:id="@+id/nav_close"
-            android:icon="@drawable/close"
+            android:icon="@drawable/exit"
             android:title="Exit Application" />
 
     </group>

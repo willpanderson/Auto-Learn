@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1B1A1A"
+    android:elevation="2dp"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/CameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        app:srcCompat="@drawable/camera" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/GalleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.895"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        app:srcCompat="@drawable/insert_picture_button" />
+
+    <ScrollView
+        android:layout_width="361dp"
+        android:layout_height="475dp"
+        android:background="#1b1a1a"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.46">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <TableRow
+        android:layout_width="392dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_blue_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.044">
+
+        <ImageButton
+            android:id="@+id/SettingsButton"
+            android:layout_width="78dp"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:clickable="true"
+            android:contentDescription="Button to display settings"
+            android:contextClickable="true"
+            app:srcCompat="@drawable/menu" />
+
+        <TextView
+            android:id="@+id/AppTitle"
+            android:layout_width="223dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="14sp"
+            android:text="AutoLearn"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="30sp" />
+
+        <ImageButton
+            android:id="@+id/ProfileButton"
+            android:layout_width="89dp"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:clickable="true"
+            android:contentDescription="Button to display profile page"
+            android:contextClickable="true"
+            app:srcCompat="@drawable/user" />
+
+    </TableRow>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

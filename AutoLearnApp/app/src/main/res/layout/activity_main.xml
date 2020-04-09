@@ -57,8 +57,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@android:color/holo_blue_dark"
-        android:elevation="10dp"
+        android:background="@drawable/rounded_blue_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +66,7 @@
 
         <ImageButton
             android:id="@+id/SettingsButton"
-            android:layout_width="89dp"
+            android:layout_width="78dp"
             android:layout_height="match_parent"
             android:background="#00FFFFFF"
             android:contentDescription="Button to display settings"
@@ -75,7 +74,7 @@
 
         <TextView
             android:id="@+id/AppTitle"
-            android:layout_width="212dp"
+            android:layout_width="223dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:lineSpacingExtra="14sp"

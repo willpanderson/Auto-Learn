@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
@@ -36,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle mToggle;
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
-
+    Button mButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         IDProf=(ImageView)findViewById(R.id.IDProf);
+        
 
         IDProf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
 
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     private String Document_img1="";
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
@@ -132,10 +134,6 @@ public class MainActivity extends AppCompatActivity {
                         outFile.flush();
                         outFile.close();
                     } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } catch (Exception e) {

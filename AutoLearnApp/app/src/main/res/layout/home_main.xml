@@ -50,14 +50,14 @@
 
     <ImageView
         android:id="@+id/IDProf"
-        android:layout_width="371dp"
-        android:layout_height="482dp"
+        android:layout_width="340dp"
+        android:layout_height="486dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.129"
-        app:srcCompat="@android:drawable/screen_background_light" />
+        app:layout_constraintVertical_bias="0.126"
+        app:srcCompat="@drawable/main_instructions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

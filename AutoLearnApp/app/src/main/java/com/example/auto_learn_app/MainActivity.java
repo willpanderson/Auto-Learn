@@ -29,7 +29,6 @@ import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mButton = findViewById(R.id.GalleryButton);

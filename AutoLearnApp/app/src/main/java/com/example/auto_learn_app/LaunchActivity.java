@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-
 public class LaunchActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 1000;
 
@@ -18,7 +17,7 @@ public class LaunchActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent homeIntent = new Intent(LaunchActivity.this, LoginActivity.class);
+                Intent homeIntent = new Intent(LaunchActivity.this, MainActivity.class);
 
                 startActivity(homeIntent);
                 finish();

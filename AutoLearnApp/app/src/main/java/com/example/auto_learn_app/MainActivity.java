@@ -26,6 +26,8 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,15 +40,15 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle mToggle;
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
-    Button mButton;
+    FloatingActionButton mButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         IDProf=(ImageView)findViewById(R.id.IDProf);
-        
+        mButton = findViewById(R.id.GalleryButton);
 
-        IDProf.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();

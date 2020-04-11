@@ -3,12 +3,16 @@ package com.example.auto_learn_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
     FloatingActionButton mButton;
+
+    // Defining Permission codes.
+    // We can give any value
+    // but unique for each permission.
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int STORAGE_PERMISSION_CODE = 101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,23 +92,85 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
         return super.onCreateOptionsMenu(menu);
     }
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode)
+    {
+        Intent intent;
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
+                == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
+        }
+        else {
+            switch (requestCode) {
+                case CAMERA_PERMISSION_CODE:
+                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,1);
+                    break;
+                case STORAGE_PERMISSION_CODE:
+                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
+                    intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent,2);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode)
+        {
+            case CAMERA_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,1);
+                }
+                else {
+                    Toast.makeText(MainActivity.this,
+                            "Camera Permission Denied",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            }
+            case STORAGE_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
+                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent,2);
+                }
+                else {
+                    Toast.makeText(MainActivity.this,
+                            "Storage Permission Denied",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            }
+        }
+
+    }
 
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Add Photo!");
+        builder.setTitle("Select photo");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo"))
                 {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 1);
+                    checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 2);
+                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();

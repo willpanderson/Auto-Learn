@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActvity">
+    android:background="#1B1A1A"
+    tools:context=".SignupActivity">
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

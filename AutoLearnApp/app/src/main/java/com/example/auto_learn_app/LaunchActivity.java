@@ -17,9 +17,9 @@ public class LaunchActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent homeIntent = new Intent(LaunchActivity.this, MainActivity.class);
+                Intent loginIntent = new Intent(LaunchActivity.this, LoginActivity.class);
 
-                startActivity(homeIntent);
+                startActivity(loginIntent);
                 finish();
             }
         },SPLASH_TIME_OUT);

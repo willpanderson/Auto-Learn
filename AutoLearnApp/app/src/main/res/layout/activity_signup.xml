@@ -8,5 +8,36 @@
     tools:context=".SignupActivity">
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="317dp"
+        android:layout_height="438dp"
+        android:background="#90B5C1"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="114dp" />
 
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="241dp"
+        android:layout_height="60dp"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.862" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSignup"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="#0099CC"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        style="@style/myToolbarStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

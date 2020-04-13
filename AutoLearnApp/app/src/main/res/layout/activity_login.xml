@@ -53,7 +53,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:password="true"
+            app:passwordToggleEnabled="true"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             app:layout_constraintBottom_toTopOf="@+id/loginButton"
@@ -124,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:contextClickable="false"
                 android:text="Sign Up"
                 android:textColor="#0099CC" />
         </LinearLayout>

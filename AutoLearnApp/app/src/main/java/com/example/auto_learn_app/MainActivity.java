@@ -246,7 +246,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_logout:
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+
+                // Add code to log the user out
+
+
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
                 break;
             case R.id.nav_close:
                 onDestroy();

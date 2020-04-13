@@ -105,14 +105,14 @@
             <TextView
                 android:id="@+id/spacer2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="          " />
 
             <TextView
                 android:id="@+id/signupPrompt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Don't have an account?"
                 android:textColor="#94D8EF"
@@ -121,7 +121,7 @@
             <TextView
                 android:id="@+id/signupClick"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:contextClickable="false"

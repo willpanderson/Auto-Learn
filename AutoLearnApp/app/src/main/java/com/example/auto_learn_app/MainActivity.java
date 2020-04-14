@@ -241,9 +241,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             case R.id.nav_stats:
                 Toast.makeText(this, "Stats", Toast.LENGTH_SHORT).show();
+                Intent statsIntent = new Intent(MainActivity.this, StatisticsActivity.class);
+                startActivity(statsIntent);
+                finish();
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+                Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
+                startActivity(infoIntent);
+                finish();
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();

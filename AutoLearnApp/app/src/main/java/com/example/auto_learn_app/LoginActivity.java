@@ -11,6 +11,8 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
     Button mButton;
     TextView signUp;
+    TextView mfrogot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,17 @@ public class LoginActivity extends AppCompatActivity {
                 Intent signupIntent = new Intent(LoginActivity.this, SignupActivity.class);
 
                 startActivity(signupIntent);
+                finish();
+            }
+        });
+
+        mfrogot = (TextView) findViewById(R.id.forgotPsswd);
+        mfrogot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent frogotIntent = new Intent(LoginActivity.this, ProfileActivity.class);
+
+                startActivity(frogotIntent);
                 finish();
             }
         });

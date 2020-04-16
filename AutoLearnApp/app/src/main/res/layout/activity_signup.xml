@@ -103,12 +103,12 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSignup"
+        style="@style/myToolbarStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:background="#0099CC"
+        android:background="#90B5C1"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        style="@style/myToolbarStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

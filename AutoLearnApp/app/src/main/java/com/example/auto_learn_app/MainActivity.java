@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView IDProf;
     FloatingActionButton mButton;
 
-
     // Defining Permission codes.
     // We can give any value
     // but unique for each permission.
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
@@ -230,13 +230,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mToggle.onOptionsItemSelected(item))
-            Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
-        Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
-        startActivity(infoIntent);
-        finish();
+            return true;
+
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

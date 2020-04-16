@@ -230,10 +230,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mToggle.onOptionsItemSelected(item))
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
-            Intent infoIntent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(infoIntent);
-            finish();
+            Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+        Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
+        startActivity(infoIntent);
+        finish();
         return super.onOptionsItemSelected(item);
     }
 

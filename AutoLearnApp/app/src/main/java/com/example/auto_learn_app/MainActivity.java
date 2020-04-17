@@ -33,6 +33,9 @@ import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView IDProf;
     FloatingActionButton mButton;
 
+
+
     // Defining Permission codes.
     // We can give any value
     // but unique for each permission.
@@ -59,9 +64,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mButton = findViewById(R.id.GalleryButton);
-
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
@@ -254,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+
                 Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
                 startActivity(infoIntent);
                 finish();
@@ -262,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
 
                 // Add code to log the user out
-
 
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
@@ -277,5 +282,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
 }
 

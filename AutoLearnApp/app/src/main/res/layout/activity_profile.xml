@@ -105,7 +105,7 @@
         android:id="@+id/toolbarProfile"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:background="#90C5B1"
+        android:background="#0099cc"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"

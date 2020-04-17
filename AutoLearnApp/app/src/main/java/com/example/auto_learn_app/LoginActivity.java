@@ -8,15 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
     Button mButton;
     TextView signUp;
     TextView mfrogot;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+
 
         mButton = (Button) findViewById(R.id.loginButton);
         mButton.setOnClickListener(new View.OnClickListener() {

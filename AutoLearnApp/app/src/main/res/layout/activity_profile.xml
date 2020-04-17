@@ -102,11 +102,10 @@
         app:layout_constraintVertical_bias="0.906" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarSignup"
-        style="@style/myToolbarStyle"
+        android:id="@+id/toolbarProfile"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:background="#90B5C1"
+        android:background="#90C5B1"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,4 +113,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

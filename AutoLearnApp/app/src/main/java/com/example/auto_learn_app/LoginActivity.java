@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mfrogot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent frogotIntent = new Intent(LoginActivity.this, ProfileActivity.class);
+                Intent frogotIntent = new Intent(LoginActivity.this,PasswordReset.class);
 
                 startActivity(frogotIntent);
                 finish();

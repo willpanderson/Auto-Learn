@@ -33,6 +33,10 @@ import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
     FloatingActionButton mButton;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mListener;
 
     // Defining Permission codes.
     // We can give any value
@@ -59,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mButton = findViewById(R.id.GalleryButton);
-
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
@@ -254,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+
                 Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
                 startActivity(infoIntent);
                 finish();
@@ -261,9 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
 
-                // Add code to log the user out
-
-
+                signOut();
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
@@ -273,9 +278,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onDestroy();
                 System.exit(0);
                 return true;
+
         }
 
         return true;
+    }
+    private void signOut() {
+        mAuth.getInstance().signOut();
+        FirebaseUser mUser = null;
+
     }
 }
 

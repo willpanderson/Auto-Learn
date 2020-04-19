@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
     FloatingActionButton mButton;
-
+    private FirebaseAuth mAuth;
 
 
     // Defining Permission codes.
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        mAuth = FirebaseAuth.getInstance();
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mButton = findViewById(R.id.GalleryButton);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -267,8 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
 
-                // Add code to log the user out
-
+                signOut();
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
@@ -282,6 +281,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+    private void signOut() {
+        mAuth.getInstance().signOut();
 
+    }
 }
 

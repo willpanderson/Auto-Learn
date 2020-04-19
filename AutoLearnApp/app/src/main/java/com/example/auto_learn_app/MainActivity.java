@@ -37,6 +37,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView IDProf;
     FloatingActionButton mButton;
     private FirebaseAuth mAuth;
-
+    private FirebaseAuth.AuthStateListener mListener;
 
     // Defining Permission codes.
     // We can give any value
@@ -277,12 +278,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 onDestroy();
                 System.exit(0);
                 return true;
+
         }
 
         return true;
     }
     private void signOut() {
         mAuth.getInstance().signOut();
+        FirebaseUser mUser = null;
 
     }
 }

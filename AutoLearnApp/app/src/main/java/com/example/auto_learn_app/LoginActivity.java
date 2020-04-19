@@ -70,15 +70,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else if (email2.isEmpty() && pass.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Please enter your credentials", Toast.LENGTH_SHORT).show();
+                    email.requestFocus();
+                    passwod.requestFocus();
                 }
                 else if (! (email2.isEmpty() && pass.isEmpty())){
                     mAuth.signInWithEmailAndPassword(email2,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(LoginActivity.this, "Login ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             }
                             else {
+                                Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
                                 Intent p = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(p);
                             }
@@ -91,15 +94,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         mListener = new FirebaseAuth.AuthStateListener() {
-            FirebaseUser mUser = mAuth.getCurrentUser();
+            FirebaseUser mUser;
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (mUser != null){
-                    Toast.makeText(LoginActivity.this, "Logged in",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "Log in Failed",Toast.LENGTH_SHORT).show();
+                if (mUser == null){
+                    Toast.makeText(LoginActivity.this, "Login",Toast.LENGTH_SHORT).show();
                 }
             }
         };

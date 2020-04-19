@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
     private void signOut() {
-        mAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();
         FirebaseUser mUser = null;
 
     }

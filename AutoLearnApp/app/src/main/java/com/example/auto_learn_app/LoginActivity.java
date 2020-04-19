@@ -1,8 +1,5 @@
 package com.example.auto_learn_app;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,9 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     Button mButton;
     TextView signUp;
-    TextView mfrogot;
+    TextView mforgot;
     private FirebaseAuth mAuth;
-    EditText email, passwod;
+    EditText email, password;
     private FirebaseAuth.AuthStateListener mListener;
 
 
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         email = findViewById(R.id.emailEntry);
-        passwod = findViewById(R.id.passwordEntry);
+        password = findViewById(R.id.passwordEntry);
         mButton = (Button) findViewById(R.id.loginButton);
         signUp = (TextView) findViewById(R.id.signupClick);
         mAuth = FirebaseAuth.getInstance();
@@ -45,13 +45,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mfrogot = (TextView) findViewById(R.id.forgotPsswd);
-        mfrogot.setOnClickListener(new View.OnClickListener() {
+        mforgot = (TextView) findViewById(R.id.forgotPsswd);
+        mforgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent frogotIntent = new Intent(LoginActivity.this,PasswordReset.class);
+                Intent forgotIntent = new Intent(LoginActivity.this,PasswordReset.class);
 
-                startActivity(frogotIntent);
+                startActivity(forgotIntent);
                 finish();
             }
         });
@@ -59,19 +59,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email2 = email.getText().toString();
-                String pass = passwod.getText().toString();
+                String pass = password.getText().toString();
                 if (email2.isEmpty()){
                     email.setError("Enter a email");
                     email.requestFocus();
                 }
                 else if (pass.isEmpty()){
-                    passwod.setError("Enter a password");
-                    passwod.requestFocus();
+                    password.setError("Enter a password");
+                    password.requestFocus();
                 }
                 else if (email2.isEmpty() && pass.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Please enter your credentials", Toast.LENGTH_SHORT).show();
                     email.requestFocus();
-                    passwod.requestFocus();
+                    password.requestFocus();
                 }
                 else if (! (email2.isEmpty() && pass.isEmpty())){
                     mAuth.signInWithEmailAndPassword(email2,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {

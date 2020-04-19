@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "Please enter account info!", Toast.LENGTH_SHORT).show();
 
                 }
-                else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty())){
+                else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() && pass == pass2)){
                     mfirebaseAuth.createUserWithEmailAndPassword(email2,pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

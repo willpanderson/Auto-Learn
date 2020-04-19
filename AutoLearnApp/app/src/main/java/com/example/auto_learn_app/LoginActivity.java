@@ -68,12 +68,17 @@ public class LoginActivity extends AppCompatActivity {
                     passwod.setError("Enter a password");
                     passwod.requestFocus();
                 }
+                else if (email2.isEmpty() && pass.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Please enter your credentials", Toast.LENGTH_SHORT).show();
+                    email.requestFocus();
+                    passwod.requestFocus();
+                }
                 else if (! (email2.isEmpty() && pass.isEmpty())){
                     mAuth.signInWithEmailAndPassword(email2,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(LoginActivity.this, "Login Failed. Please check your credentials and try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
@@ -93,7 +98,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                
+                if (mUser == null){
+                    Toast.makeText(LoginActivity.this, "The previous user has been logged out",Toast.LENGTH_SHORT).show();
+                }
             }
         };
 

@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.nav_close:
+                signOut();
                 Toast.makeText(this, "Exiting app", Toast.LENGTH_SHORT).show();
                 onDestroy();
                 System.exit(0);

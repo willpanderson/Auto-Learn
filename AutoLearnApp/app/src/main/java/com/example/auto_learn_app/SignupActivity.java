@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 
 public class SignupActivity extends AppCompatActivity {
     Button btnSignUp;
@@ -30,14 +32,14 @@ public class SignupActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbarSignup);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Sign up form");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Sign up form");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mfirebaseAuth = FirebaseAuth.getInstance();
-        email = findViewById(R.id.emailSignup);
+        email = findViewById(R.id.emailReset);
         passwod = findViewById(R.id.passwordSignup);
         passwod2 = findViewById(R.id.confirmSignup);
-        btnSignUp = findViewById(R.id.registerButton);
+        btnSignUp = findViewById(R.id.resetButton);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
                                 Toast.makeText(SignupActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Intent s = new Intent(SignupActivity.this, MainActivity.class);
+                                Intent s = new Intent(SignupActivity.this, EmailVerification.class);
                                 startActivity(s);
                             }
                         }

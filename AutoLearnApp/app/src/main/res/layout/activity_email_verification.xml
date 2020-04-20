@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B1A1A"
-    tools:context=".PasswordReset">
+    tools:context=".EmailVerification">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,42 +19,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.384">
 
-        <EditText
-            android:id="@+id/emailReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="196dp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
             android:id="@+id/eVerifyLogo"
             android:layout_width="217dp"
             android:layout_height="57dp"
             android:fontFamily="cursive"
-            android:text="Password Reset"
-            android:textSize="36sp"
+            android:text="Email Verification"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.12" />
+            app:layout_constraintVertical_bias="0.113" />
 
         <Button
             android:id="@+id/resetButton"
             android:layout_width="241dp"
             android:layout_height="60dp"
-            android:text="Send Reset Link"
+            android:text="Send Verficiation Email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.865" />
+            app:layout_constraintVertical_bias="0.585" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

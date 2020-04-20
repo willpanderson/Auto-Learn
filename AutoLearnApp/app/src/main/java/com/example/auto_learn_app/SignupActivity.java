@@ -61,6 +61,9 @@ public class SignupActivity extends AppCompatActivity {
                 } else if (pass2.isEmpty()) {
                     passwod2.setError("Enter a password");
                     passwod2.requestFocus();
+                } else if(name2.isEmpty()){
+                    name.setError("Enter a password");
+                    name.requestFocus();
                 } else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() && pass == pass2 && name2.isEmpty())) {
                     mfirebaseAuth.createUserWithEmailAndPassword(email2, pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override

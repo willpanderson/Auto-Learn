@@ -21,10 +21,6 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="Log out" />
-        <item
-            android:id="@+id/nav_close"
-            android:icon="@drawable/exit"
-            android:title="Exit Application" />
 
     </group>
 </menu>

@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".EmailVerification"></activity>
+        <activity android:name=".UserDataEntryActivity"></activity>
+        <activity android:name=".EmailVerification" />
         <activity android:name=".PasswordReset" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".StatisticsActivity" />

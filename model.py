@@ -25,7 +25,7 @@ def get_label(file_path):
     parts = tf.strings.split(file_path, os.path.sep)
     # the second part is the model_id
     model_id = parts[2]
-    f_label = open("D:/AutoLearn/Vehicle Data Set/data/misc/attributes.txt") # contains all of the image attributes sorted by model_id
+    f_label = open("C:/AutoLearn/Vehicle Data Set/data/data/misc/attributes.txt") # contains all of the image attributes sorted by model_id
     for line in f_label:
         values = line.split()
         if (values[0] == model_id): # the first value in each line is the model_id
@@ -33,6 +33,7 @@ def get_label(file_path):
     f_label.close()
 
 # fucntion to retrieve and return a resized image
+    
 def decode_img(img):
     # convert the compressed string to a 3D uint8 tensor
     img = tf.image.decode_jpeg(img, channels=3)
@@ -50,8 +51,8 @@ def process_path(file_path):
     return img, label
 
    
-train_file = 'D:/AutoLearn/Vehicle Data Set/data/train_test_split/classification/train.txt'
-test_file = 'D:/AutoLearn/Vehicle Data Set/data/train_test_split/classification/test.txt'
+train_file = 'C:/AutoLearn/Vehicle Data Set/data/data/train_test_split/classification/train.txt'
+test_file = 'C:/AutoLearn/Vehicle Data Set/data/data/train_test_split/classification/test.txt'
 train_images_array = []
 test_images_array = []
 
@@ -63,16 +64,20 @@ with open(train_file) as my_file_train:
 with open(test_file) as my_file_test:
     for line in my_file_test:
         test_images_array.append(line)
-        
+    
 # transform into a tensorflow dataset object
 train_ds = tf.data.Dataset.list_files(train_images_array)
 test_ds = tf.data.Dataset.list_files(test_images_array)
 
+
+
+
 # transform into a dataset map with labels included
 # set parallel calls so multiple images are loaded/processed in parallel
+
 labeled_training_ds = train_ds.map(process_path) 
 labeled_testing_ds = test_ds.map(process_path)
-    
+
 
 # Generators preprocess images into batches of tensors
 train_image_generator = ImageDataGenerator(rescale = 1./255)
@@ -93,18 +98,17 @@ model = Sequential([
 
 # Compile model
 model.compile(optimizer='adam', loss=tf.keras.losses.BinaryCrossentropy(from_logits=True), metrics=['accuracy'])
+model.summary()
 
 """
 history = model.fit_generator(
     train_image_generator,
-    steps_per_epoch=len(train_images_array // batch_size,
+    steps_per_epoch= batch_size // batch_size,
     epochs=epochs,
     validation_data=validation_image_generator,
-    validation_steps=len(test_images_array // batch_size
+    validation_steps= batch_size// batch_size
 )
 """
-
-
 
 
 

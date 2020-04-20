@@ -45,14 +45,14 @@ public class EmailVerification extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(EmailVerification.this,
-                                            "Verification email sent to " + user.getEmail(),
+                                            "Hi " + user.getDisplayName() + ". A verification email has been sent to " + user.getEmail(),
                                             Toast.LENGTH_SHORT).show();
                                     Intent loginIntent = new Intent(EmailVerification.this, MainActivity.class);
                                     startActivity(loginIntent);
                                 }
                                 else{
                                     Toast.makeText(EmailVerification.this,
-                                            "Failed to send verification email.",
+                                            "Sorry " + user.getDisplayName() + "but the system failed to send verification email.",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }

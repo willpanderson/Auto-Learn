@@ -15,15 +15,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 
 
 public class SignupActivity extends AppCompatActivity {
     Button btnSignUp;
-    EditText email, passwod,passwod2;
+    EditText email, passwod,passwod2,name,utaID;
     FirebaseAuth mfirebaseAuth;
     androidx.appcompat.widget.Toolbar toolbar;
+    FirebaseAuth mAuth = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +44,14 @@ public class SignupActivity extends AppCompatActivity {
         passwod = findViewById(R.id.passwordSignup);
         passwod2 = findViewById(R.id.confirmSignup);
         btnSignUp = findViewById(R.id.resetButton);
+        name = findViewById(R.id.nameSignup);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email2 = email.getText().toString();
                 String pass = passwod.getText().toString();
                 String pass2 = passwod2.getText().toString();
+                final String name2 = name.getText().toString();
                 if (email2.isEmpty()){
                     email.setError("Enter a email");
                     email.requestFocus();
@@ -58,11 +64,12 @@ public class SignupActivity extends AppCompatActivity {
                     passwod2.setError("Enter a password");
                     passwod2.requestFocus();
                 }
-                else if (email2.isEmpty() && pass.isEmpty() && pass2.isEmpty()){
+
+                else if (email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() ){
                     Toast.makeText(SignupActivity.this, "Please enter account info!", Toast.LENGTH_SHORT).show();
 
                 }
-                else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() && pass == pass2)){
+                else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() && pass == pass2 )){
                     mfirebaseAuth.createUserWithEmailAndPassword(email2,pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -82,6 +89,11 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

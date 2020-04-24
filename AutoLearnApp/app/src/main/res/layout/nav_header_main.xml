@@ -78,7 +78,7 @@
         android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:gravity="bottom|center|left"
-        android:paddingLeft="15"
+        android:paddingLeft="15dp"
         android:text="Auto- Learn Machine Vision" />
 
 </LinearLayout>

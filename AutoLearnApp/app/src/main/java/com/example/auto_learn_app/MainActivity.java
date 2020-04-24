@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth.AuthStateListener mListener;
     private FirebaseVisionImage image;
     private String[] result = new String[6];
+    private int uploaded = 0;
 
     // Defining Permission codes.
     // We can give any value
@@ -98,7 +99,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         classifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                runModel();
+                if (uploaded == 1)
+                    runModel();
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Please upload a photo", Toast.LENGTH_SHORT);
+                }
             }
         });
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -219,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bitmap = (Bitmap) data.getExtras().get("data");
                 IDProf.setImageBitmap(bitmap);
                 image = FirebaseVisionImage.fromBitmap(bitmap);
+                uploaded = 1;
+                runModel();
                 
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
@@ -234,6 +242,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 IDProf.setImageBitmap(bitmap);
                 BitMapToString(bitmap);
                 image = FirebaseVisionImage.fromBitmap(bitmap);
+                uploaded = 1;
+                runModel();
             }
         }
     }

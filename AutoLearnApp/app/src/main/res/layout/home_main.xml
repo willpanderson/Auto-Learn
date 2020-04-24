@@ -66,7 +66,7 @@
         android:layout_height="58dp"
         android:layout_marginTop="14dp"
         android:clickable="false"
-        android:text="Classify Image"
+        android:text="View results"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

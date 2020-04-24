@@ -3,7 +3,8 @@
     "project_number": "182260159799",
     "firebase_url": "https://auto-learn-app.firebaseio.com",
     "project_id": "auto-learn-app",
-    "storage_bucket": "auto-learn-app.appspot.com"
+    "storage_bucket": "auto-learn-app.appspot.com",
+
   },
   "client": [
     {

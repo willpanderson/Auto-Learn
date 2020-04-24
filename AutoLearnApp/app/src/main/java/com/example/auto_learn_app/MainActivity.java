@@ -31,11 +31,23 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.ml.common.FirebaseMLException;
+import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
+import com.google.firebase.ml.custom.FirebaseModelInterpreter;
+import com.google.firebase.ml.custom.FirebaseModelInterpreterOptions;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
+import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
 
 import java.io.ByteArrayOutputStream;
@@ -44,16 +56,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ResultDialog.ResultDialogListener {
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToggle;
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
     FloatingActionButton mButton;
+    Button classifyButton;
+    private Bitmap bitmap;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mListener;
+    private FirebaseVisionImage image;
+    private String[] result = new String[6];
 
     // Defining Permission codes.
     // We can give any value
@@ -74,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 selectImage();
 
+            }
+        });
+
+        classifyButton = findViewById(R.id.classificationButton);
+        classifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                runModel();
             }
         });
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -191,8 +216,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                bitmap = (Bitmap) data.getExtras().get("data");
                 IDProf.setImageBitmap(bitmap);
+                image = FirebaseVisionImage.fromBitmap(bitmap);
                 
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
@@ -202,11 +228,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                thumbnail=getResizedBitmap(thumbnail, 400);
+                bitmap = (BitmapFactory.decodeFile(picturePath));
+                bitmap=getResizedBitmap(bitmap, 400);
                 Log.w("path of image from gallery......******************.........", picturePath+"");
-                IDProf.setImageBitmap(thumbnail);
-                BitMapToString(thumbnail);
+                IDProf.setImageBitmap(bitmap);
+                BitMapToString(bitmap);
+                image = FirebaseVisionImage.fromBitmap(bitmap);
             }
         }
     }
@@ -280,6 +307,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
         FirebaseUser mUser = null;
+
+    }
+    private void openDialog() {
+        ResultDialog resultDialog = new ResultDialog();
+        resultDialog.show(getSupportFragmentManager(),"result dialog");
+
+    }
+
+    @Override
+    public Bitmap getImage() {
+        return bitmap;
+    }
+
+    @Override
+    public String[] getResults() { return result; }
+
+
+    public void runModel() {
+
+        // Build the model
+        FirebaseAutoMLLocalModel localModel = new FirebaseAutoMLLocalModel.Builder()
+                .setAssetFilePath("manifest.json")
+                .build();
+
+        // Generate a labeler
+        FirebaseVisionImageLabeler labeler;
+        try {
+            final FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
+                    new FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)
+                            .setConfidenceThreshold(0.0f)  // Evaluate your model in the Firebase console
+                            // to determine an appropriate value.
+                            .build();
+            labeler = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options);
+            labeler.processImage(image)
+                    .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                        @Override
+                        public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                            String text = "";
+                            float confidence;
+                            int i = 0;
+
+                            for (FirebaseVisionImageLabel label: labels) {
+                                text = label.getText();
+                                confidence = label.getConfidence();
+
+                                result[i++] = text + "  " + confidence;
+                            }
+                            openDialog();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "Unable to run model",Toast.LENGTH_SHORT);
+                        }
+                    });
+        } catch (FirebaseMLException e) {
+            Toast.makeText(this, "Unable to create labeler",Toast.LENGTH_SHORT);
+        }
 
     }
 }

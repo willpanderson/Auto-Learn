@@ -274,14 +274,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mToggle.onOptionsItemSelected(item))
             return true;
-        switch (item.getItemId())
-        {
-            case R.id.profile:
-                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(profileIntent);
-                finish();
-                return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

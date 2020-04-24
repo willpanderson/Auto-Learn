@@ -10,10 +10,6 @@
         android:id="@+id/profile_password"
         app:showAsAction="never"
         android:title="Change Password" />
-    <item
-        android:id="@+id/profile_delete"
-        app:showAsAction="never"
-        android:title="Delete Account" />
 
 
 </menu>

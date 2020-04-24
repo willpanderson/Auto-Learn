@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ public class SignupActivity extends AppCompatActivity {
     Button btnSignUp;
     EditText email, passwod,passwod2,name,utaID;
     FirebaseAuth mfirebaseAuth;
+    FirebaseAnalytics mAnalytics;
     androidx.appcompat.widget.Toolbar toolbar;
 
 
@@ -45,6 +47,7 @@ public class SignupActivity extends AppCompatActivity {
         passwod2 = findViewById(R.id.confirmSignup);
         btnSignUp = findViewById(R.id.resetButton);
         name = findViewById(R.id.nameSignup);
+        utaID = findViewById(R.id.idSignup);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
                 String pass = passwod.getText().toString();
                 String pass2 = passwod2.getText().toString();
                 String name2 = name.getText().toString();
+                final String MavsAcct = utaID.getText().toString();
                 if (email2.isEmpty()) {
                     email.setError("Enter a email");
                     email.requestFocus();
@@ -64,7 +68,10 @@ public class SignupActivity extends AppCompatActivity {
                 } else if(name2.isEmpty()){
                     name.setError("Enter a password");
                     name.requestFocus();
-                } else if (!(email2.isEmpty() && pass.isEmpty() && pass2.isEmpty() && pass == pass2 && name2.isEmpty())) {
+                } else if (MavsAcct.isEmpty()){
+                    utaID.setError("Enter a UTA ID");
+                    utaID.requestFocus();
+                } else {
                     mfirebaseAuth.createUserWithEmailAndPassword(email2, pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -79,6 +86,7 @@ public class SignupActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
+                                                        //mAnalytics.setUserId(MavsAcct);
                                                         Intent s = new Intent(SignupActivity.this, EmailVerification.class);
                                                         startActivity(s);
                                                     }

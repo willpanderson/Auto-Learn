@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/profile_number"
-        app:showAsAction="never"
-        android:title="Change ID number" />
-
-    <item
         android:id="@+id/profile_email"
-        app:showAsAction="never"
-        android:title="Change email" />
+        android:title="Change Email"
+        app:showAsAction="never" />
     <item
         android:id="@+id/profile_password"
         app:showAsAction="never"
-        android:title="Change password" />
+        android:title="Change Password" />
+    <item
+        android:id="@+id/profile_delete"
+        app:showAsAction="never"
+        android:title="Delete Account" />
+
 
 </menu>

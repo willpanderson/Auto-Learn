@@ -274,6 +274,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mToggle.onOptionsItemSelected(item))
             return true;
+        switch (item.getItemId())
+        {
+            case R.id.stats:
+                Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -281,12 +287,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
-            case R.id.nav_stats:
-                Toast.makeText(this, "Stats", Toast.LENGTH_SHORT).show();
-                Intent statsIntent = new Intent(MainActivity.this, StatisticsActivity.class);
-                startActivity(statsIntent);
-                finish();
-                break;
             case R.id.nav_about:
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
 

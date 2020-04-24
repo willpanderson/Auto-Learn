@@ -30,7 +30,7 @@
         android:background="#0099cc"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,10 +39,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:lineSpacingExtra="14sp"
-            android:text="AutoLearn"
-            android:textAlignment="center"
+            android:paddingLeft="30dp"
+            android:text="Auto Learn"
+            android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="30sp"
+            android:textSize="36sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="7dp" />
 

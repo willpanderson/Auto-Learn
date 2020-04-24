@@ -5,10 +5,6 @@
 
     <group android:id="@+id/navigation_menu1" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_stats"
-            android:icon="@drawable/stats"
-            android:title="Model Statistics" />
-        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/info"
             android:title="Model Information" />

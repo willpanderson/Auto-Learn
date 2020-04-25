@@ -98,9 +98,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (mUser == null){
-                    Toast.makeText(LoginActivity.this, "The previous user has been logged out",Toast.LENGTH_SHORT).show();
-                }
             }
         };
 

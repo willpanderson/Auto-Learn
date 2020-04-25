@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
     Button btnSignUp;
-    EditText email, passwod,passwod2,name,utaID;
+    EditText email, passwod,passwod2,name;
     FirebaseAuth mfirebaseAuth;
     FirebaseAnalytics mAnalytics;
     androidx.appcompat.widget.Toolbar toolbar;
@@ -48,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
         passwod2 = findViewById(R.id.confirmSignup);
         btnSignUp = findViewById(R.id.resetButton);
         name = findViewById(R.id.nameSignup);
-        utaID = findViewById(R.id.idSignup);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,6 @@ public class SignupActivity extends AppCompatActivity {
                 String pass = passwod.getText().toString();
                 String pass2 = passwod2.getText().toString();
                 name2 += name.getText().toString();
-                final String MavsAcct = utaID.getText().toString();
                 if (email2.isEmpty()) {
                     email.setError("Enter a email");
                     email.requestFocus();
@@ -69,9 +68,6 @@ public class SignupActivity extends AppCompatActivity {
                 } else if(name2.isEmpty()){
                     name.setError("Enter a password");
                     name.requestFocus();
-                } else if (MavsAcct.isEmpty()){
-                    utaID.setError("Enter a UTA ID");
-                    utaID.requestFocus();
                 } else {
 
                     if (pass.equals(pass2))

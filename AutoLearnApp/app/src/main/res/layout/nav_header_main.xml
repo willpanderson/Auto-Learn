@@ -79,6 +79,6 @@
         android:layout_height="wrap_content"
         android:gravity="bottom|center|left"
         android:paddingLeft="15dp"
-        android:text="Auto- Learn Machine Vision" />
+        android:text="Machine Vision Image Classification" />
 
 </LinearLayout>

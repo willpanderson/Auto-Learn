@@ -28,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     FirebaseAuth mfirebaseAuth;
     FirebaseAnalytics mAnalytics;
     androidx.appcompat.widget.Toolbar toolbar;
+    private String name2 = new String("");
 
 
 
@@ -54,7 +55,7 @@ public class SignupActivity extends AppCompatActivity {
                 String email2 = email.getText().toString();
                 String pass = passwod.getText().toString();
                 String pass2 = passwod2.getText().toString();
-                String name2 = name.getText().toString();
+                name2 += name.getText().toString();
                 final String MavsAcct = utaID.getText().toString();
                 if (email2.isEmpty()) {
                     email.setError("Enter a email");
@@ -80,7 +81,8 @@ public class SignupActivity extends AppCompatActivity {
                             } else {
                                 FirebaseUser user = mfirebaseAuth.getCurrentUser();
                                 if (user != null) {
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name.getText().toString().trim()).build();
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(name2).build();
                                     user.updateProfile(profileUpdates)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override

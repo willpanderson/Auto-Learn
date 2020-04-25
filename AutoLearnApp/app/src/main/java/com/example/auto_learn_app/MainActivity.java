@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,20 +31,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.ml.common.FirebaseMLException;
-import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
-import com.google.firebase.ml.custom.FirebaseModelInterpreter;
-import com.google.firebase.ml.custom.FirebaseModelInterpreterOptions;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView mProfile;
     FloatingActionButton mButton;
     Button classifyButton;
+    private TextView name;
     private Bitmap bitmap;
     private Bitmap profileBitmap;
     private FirebaseAuth mAuth;
@@ -90,12 +95,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set the Firebase Authenticator and user
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        // Display the Navigation view
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Create an instance of the navigation header
+        // in order to access the contents in the lines below
         View hView =  navigationView.getHeaderView(0);
-        mAuth = FirebaseAuth.getInstance();
+
+        // Update the name of the user in navigation header
+        name = (TextView) hView.findViewById(R.id.profile_name);
+        if (user != null)
+            name.setText(user.getDisplayName());
+
+        // Declare our image views
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
+
+        // Set the current profile picture
+        if (user != null)
+        {
+            Uri firebaseProfile = user.getPhotoUrl();
+            if (firebaseProfile != null)
+            {
+                mProfile.setImageURI(firebaseProfile);
+                profileBitmap = ((BitmapDrawable) mProfile.getDrawable()).getBitmap();
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
+                roundedBitmapDrawable.setCircular(true);
+                mProfile.setImageDrawable(roundedBitmapDrawable);
+            }
+
+            // If there is no profile picture saved set the default
+            else
+            {
+                profileBitmap = ((BitmapDrawable) mProfile.getDrawable()).getBitmap();
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
+                roundedBitmapDrawable.setCircular(true);
+                mProfile.setImageDrawable(roundedBitmapDrawable);
+            }
+        }
+
+        // Listener to update profile picture
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 selectImage();
             }
         });
+
+        // Listener to run model
         mButton = findViewById(R.id.GalleryButton);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+        // Display the results again by running the model
         classifyButton = findViewById(R.id.classificationButton);
         classifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,11 +175,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        // Display the navigation drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        // Add a toggle to allow button on toolbar to open navigation view
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
 
+        // Set the toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -279,17 +333,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (requestCode == 4)
             {
-                Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                profileBitmap = (BitmapFactory.decodeFile(picturePath));
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
-                roundedBitmapDrawable.setCircular(true);
-                mProfile.setImageDrawable(roundedBitmapDrawable);
+                final Uri selectedImage = data.getData();
+                if (user != null)
+                {
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(selectedImage).build();
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        String[] filePath = { MediaStore.Images.Media.DATA };
+                                        Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                                        c.moveToFirst();
+                                        int columnIndex = c.getColumnIndex(filePath[0]);
+                                        String picturePath = c.getString(columnIndex);
+                                        c.close();
+                                        profileBitmap = (BitmapFactory.decodeFile(picturePath));
+                                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
+                                        roundedBitmapDrawable.setCircular(true);
+                                        mProfile.setImageDrawable(roundedBitmapDrawable);
+                                    }
+                                }
+                            });
+                }
+
             }
         }
     }

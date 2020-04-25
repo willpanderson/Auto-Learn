@@ -73,32 +73,42 @@ public class SignupActivity extends AppCompatActivity {
                     utaID.setError("Enter a UTA ID");
                     utaID.requestFocus();
                 } else {
-                    mfirebaseAuth.createUserWithEmailAndPassword(email2, pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(SignupActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
-                            } else {
-                                FirebaseUser user = mfirebaseAuth.getCurrentUser();
-                                if (user != null) {
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(name2).build();
-                                    user.updateProfile(profileUpdates)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        //mAnalytics.setUserId(MavsAcct);
-                                                        Intent s = new Intent(SignupActivity.this, EmailVerification.class);
-                                                        startActivity(s);
-                                                    }
-                                                }
-                                            });
 
+                    if (pass.equals(pass2))
+                    {
+                        mfirebaseAuth.createUserWithEmailAndPassword(email2, pass).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(SignupActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    FirebaseUser user = mfirebaseAuth.getCurrentUser();
+                                    if (user != null) {
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(name2).build();
+                                        user.updateProfile(profileUpdates)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            //mAnalytics.setUserId(MavsAcct);
+                                                            Intent s = new Intent(SignupActivity.this, EmailVerification.class);
+                                                            startActivity(s);
+                                                        }
+                                                    }
+                                                });
+
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else
+                    {
+                        passwod2.setError("Password must match");
+                        passwod2.requestFocus();
+                    }
+
                 }
             }
         });

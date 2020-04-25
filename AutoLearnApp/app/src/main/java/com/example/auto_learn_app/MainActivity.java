@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
@@ -64,14 +66,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle mToggle;
     androidx.appcompat.widget.Toolbar toolbar;
     ImageView IDProf;
+    ImageView mProfile;
     FloatingActionButton mButton;
     Button classifyButton;
     private Bitmap bitmap;
+    private Bitmap profileBitmap;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mListener;
+    private FirebaseUser user;
     private FirebaseVisionImage image;
     private String[] result = new String[6];
-    private int uploaded = 0;
+    private boolean uploaded_for_model = false;
+    private boolean uploaded_for_profile = false;
+    private boolean has_been_uploaded = false;
+
 
     // Defining Permission codes.
     // We can give any value
@@ -83,15 +90,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View hView =  navigationView.getHeaderView(0);
         mAuth = FirebaseAuth.getInstance();
         IDProf=(ImageView)findViewById(R.id.IDProf);
+        mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
+        mProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploaded_for_model = false;
+                uploaded_for_profile = true;
+                selectImage();
+            }
+        });
         mButton = findViewById(R.id.GalleryButton);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
-
+                uploaded_for_model = true;
+                uploaded_for_profile = false;
+                 selectImage();
             }
         });
 
@@ -99,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         classifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (uploaded == 1)
+                if (uploaded_for_model || has_been_uploaded )
                     runModel();
                 else
                 {
@@ -117,12 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
         }
-
-    private String Document_img1="";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,12 +158,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case CAMERA_PERMISSION_CODE:
                     Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
                     intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent,1);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,1);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 3);
                     break;
                 case STORAGE_PERMISSION_CODE:
                     Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
                     intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent,2);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,2);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 4);
                     break;
             }
         }
@@ -166,7 +186,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent,1);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,1);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 3);
                 }
                 else {
                     Toast.makeText(MainActivity.this,
@@ -180,7 +203,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
                     Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent,2);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,2);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 4);
                 }
                 else {
                     Toast.makeText(MainActivity.this,
@@ -225,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bitmap = (Bitmap) data.getExtras().get("data");
                 IDProf.setImageBitmap(bitmap);
                 image = FirebaseVisionImage.fromBitmap(bitmap);
-                uploaded = 1;
+                has_been_uploaded = true;
                 runModel();
                 
             } else if (requestCode == 2) {
@@ -240,19 +266,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bitmap=getResizedBitmap(bitmap, 400);
                 Log.w("path of image from gallery......******************.........", picturePath+"");
                 IDProf.setImageBitmap(bitmap);
-                BitMapToString(bitmap);
                 image = FirebaseVisionImage.fromBitmap(bitmap);
-                uploaded = 1;
+                has_been_uploaded = true;
                 runModel();
             }
+            else if (requestCode == 3)
+            {
+                profileBitmap = (Bitmap) data.getExtras().get("data");
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
+                roundedBitmapDrawable.setCircular(true);
+                mProfile.setImageDrawable(roundedBitmapDrawable);
+            }
+            else if (requestCode == 4)
+            {
+                Uri selectedImage = data.getData();
+                String[] filePath = { MediaStore.Images.Media.DATA };
+                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                profileBitmap = (BitmapFactory.decodeFile(picturePath));
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
+                roundedBitmapDrawable.setCircular(true);
+                mProfile.setImageDrawable(roundedBitmapDrawable);
+            }
         }
-    }
-    public String BitMapToString(Bitmap userImage1) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
-        return Document_img1;
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {

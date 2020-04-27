@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,15 +19,25 @@ public class PasswordChange extends AppCompatActivity {
     private String newPassword, confirmPass;
     EditText newer,conf;
     Button nextb;
+    androidx.appcompat.widget.Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_change);
+
+        toolbar = findViewById(R.id.toolbar_password_change);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Change password");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         newer = findViewById(R.id.editText);
         conf = findViewById(R.id.editText3);
         nextb = findViewById(R.id.nextButton);
         newPassword = newer.getText().toString().trim();
         confirmPass = conf.getText().toString().trim();
+
+        nextb = findViewById(R.id.change_password_button);
 
         nextb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,5 +61,18 @@ public class PasswordChange extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            Intent homeIntent = new Intent(PasswordChange.this, ProfileSettings.class);
+
+            startActivity(homeIntent);
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

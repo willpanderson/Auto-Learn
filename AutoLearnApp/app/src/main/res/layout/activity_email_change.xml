@@ -8,6 +8,19 @@
     tools:context=".EmailChange">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_email_change"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="#0099cc"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="313dp"
@@ -46,7 +59,7 @@
             app:layout_constraintVertical_bias="0.12" />
 
         <Button
-            android:id="@+id/nextButton"
+            android:id="@+id/verify_new_email_button"
             android:layout_width="241dp"
             android:layout_height="60dp"
             android:text="Verify Email"
@@ -57,18 +70,5 @@
             app:layout_constraintVertical_bias="0.865" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarProfile"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:background="#0099cc"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

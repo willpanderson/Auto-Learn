@@ -88,7 +88,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/nextButton"
+        android:id="@+id/verify_new_email_button"
         android:layout_width="241dp"
         android:layout_height="60dp"
         android:text="Next"

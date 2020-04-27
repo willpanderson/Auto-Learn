@@ -47,6 +47,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.ml.common.FirebaseMLException;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel;
@@ -73,17 +76,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView mProfile;
     FloatingActionButton mButton;
     Button classifyButton;
-    private TextView name,utaID;
+    private TextView name,utaID,profession;
     private Bitmap bitmap;
     private Bitmap profileBitmap;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private FirebaseFirestore db;
     FirebaseAnalytics mAnalytics;
     private FirebaseVisionImage image;
     private String[] result = new String[6];
     private boolean uploaded_for_model = false;
     private boolean uploaded_for_profile = false;
     private boolean has_been_uploaded = false;
+    private NavigationView navigationView;
+    private View hView;
 
 
     // Defining Permission codes.
@@ -91,27 +97,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // but unique for each permission.
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 101;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set Firestore database
+        db = FirebaseFirestore.getInstance();
+        
         // Set the Firebase Authenticator and user
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+
         // Display the Navigation view
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Create an instance of the navigation header
         // in order to access the contents in the lines below
-        View hView =  navigationView.getHeaderView(0);
+        hView =  navigationView.getHeaderView(0);
 
         // Update the name of the user in navigation header
         name = (TextView) hView.findViewById(R.id.profile_name);
         utaID = (TextView) hView.findViewById(R.id.profile_id);
+        profession = (TextView) hView.findViewById(R.id.profile_profession);
+        // Grab the document with UTA_ID and PRofession
+        final DocumentReference docRef = db.collection("users").document(user.getDisplayName());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if (user != null)
+                            displayInfo(document.get("UTA_ID").toString(), document.get("PROFESSION").toString());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
         if (user != null)
             name.setText(user.getDisplayName());
         // Declare our image views
@@ -192,6 +223,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
         }
+
+    private void displayInfo(String ID, String prof) {
+        utaID.setText(ID);
+        profession.setText(prof);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -291,6 +328,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                 }
                 else if (options[item].equals("Cancel")) {
+                    uploaded_for_model = false;
+                    uploaded_for_profile = false;
                     dialog.dismiss();
                 }
             }

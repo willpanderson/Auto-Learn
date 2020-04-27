@@ -3,10 +3,10 @@
     android:shape="rectangle">
 
     // The width and color of the border
-    <solid android:color="#0099cc" />
+    <solid android:color="#8B0000" />
     <stroke
         android:width="4dp"
-        android:color="#0099cc" />
+        android:color="#8B0000" />
 
     // The desired corner radius. reduce it to keep it less rounded
     <corners android:radius="16dp" />

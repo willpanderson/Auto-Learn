@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B1A1A"
-    tools:context=".PasswordReset">
+    tools:context=".ProfileSettings">
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_password_reset"
+        android:id="@+id/toolbar_account_settings"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:background="#0099cc"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002" />
+        app:layout_constraintVertical_bias="0.001" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
@@ -32,42 +32,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.384">
 
-        <EditText
-            android:id="@+id/emailReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="196dp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/eVerifyLogo"
-            android:layout_width="217dp"
-            android:layout_height="57dp"
-            android:fontFamily="cursive"
-            android:text="Password Reset"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.48"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.12" />
-
         <Button
-            android:id="@+id/verify_new_email_button"
+            android:id="@+id/change_password_selection"
             android:layout_width="241dp"
             android:layout_height="60dp"
-            android:text="Send Reset Link"
+            android:text="Change Password"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.865" />
+            app:layout_constraintVertical_bias="0.498" />
+
+        <Button
+            android:id="@+id/change_email_selection"
+            android:layout_width="241dp"
+            android:layout_height="60dp"
+            android:text="Change Email"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.204" />
+
+        <Button
+            android:id="@+id/delete_account_button"
+            android:layout_width="241dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rounded_red_border"
+            android:text="Delete Account"
+            android:theme="@style/Button.Red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.906" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

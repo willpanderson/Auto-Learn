@@ -117,9 +117,9 @@
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="306dp"
-            android:layout_height="56dp"
-            android:text="Auto-Learn used 5586 Photos to Train and Test its Model Using The Following Datasets using Firebase AutoML "
+            android:layout_width="308dp"
+            android:layout_height="58dp"
+            android:text="Auto-Learn used 5586 Photos to train and test its model using the following datasets using Google Firebase AutoML Software"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

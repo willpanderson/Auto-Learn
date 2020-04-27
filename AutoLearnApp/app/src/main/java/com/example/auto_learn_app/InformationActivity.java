@@ -26,6 +26,7 @@ public class InformationActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Model Information");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         HyperLink = (TextView) findViewById(R.id.textView13);
         HyperLink.setClickable(true);
         HyperLink.setMovementMethod(LinkMovementMethod.getInstance());

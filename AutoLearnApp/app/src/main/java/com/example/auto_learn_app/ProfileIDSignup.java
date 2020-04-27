@@ -21,42 +21,40 @@ public class ProfileIDSignup extends AppCompatActivity {
     FirebaseAnalytics mAnalytics;
     FirebaseAuth mauth;
     FirebaseUser user;
+    androidx.appcompat.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_id_signup);
-    mauth = FirebaseAuth.getInstance();
-    mAnalytics = FirebaseAnalytics.getInstance(ProfileIDSignup.this);
-    user = mauth.getCurrentUser();
-    next_button = findViewById(R.id.nextButton);
-    utaID = findViewById(R.id.editText2);
+        toolbar = findViewById(R.id.toolbarSignup);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Maverick Information");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mauth = FirebaseAuth.getInstance();
+        user = mauth.getCurrentUser();
+        next_button = findViewById(R.id.nextButton);
+        utaID = findViewById(R.id.editText2);
     
-    next_button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String IDcheck = utaID.getText().toString();
-            if (IDcheck.isEmpty())
-            {
-                utaID.setError("Enter your UTA-issued ID");
-                utaID.requestFocus();
-            }
-            else
-            {
-                if (user != null)
+        next_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String IDcheck = utaID.getText().toString();
+                if (IDcheck.isEmpty())
                 {
-                    mAnalytics.setUserId(IDcheck);
-                    Intent intent = new Intent(ProfileIDSignup.this, EmailVerification.class);
-                    startActivity(intent);
-
+                    utaID.setError("Enter your UTA-issued ID");
+                    utaID.requestFocus();
                 }
                 else
                 {
-                    Toast.makeText(ProfileIDSignup.this, "unable to save id", Toast.LENGTH_SHORT);
-                }
 
+                    Intent intent = new Intent(ProfileIDSignup.this, EmailVerification.class);
+                    startActivity(intent);
+
+
+                }
             }
-        }
-    });
+        });
     }
 }

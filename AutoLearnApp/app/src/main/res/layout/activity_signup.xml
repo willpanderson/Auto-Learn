@@ -36,7 +36,7 @@
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:ems="10"
-            android:hint="Name"
+            android:hint="Full name (First and Last)"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

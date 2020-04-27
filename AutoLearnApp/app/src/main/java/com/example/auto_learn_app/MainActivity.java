@@ -150,22 +150,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
 
         // Set the current profile picture
-        if (user != null)
-        {
+        if (user != null) {
             Uri firebaseProfile = user.getPhotoUrl();
-            if (firebaseProfile != null)
-            {
-                mProfile.setImageURI(firebaseProfile);
-                profileBitmap = ((BitmapDrawable) mProfile.getDrawable()).getBitmap();
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
-                roundedBitmapDrawable.setCircular(true);
-                mProfile.setImageDrawable(roundedBitmapDrawable);
-            }
-
-            // If there is no profile picture saved set the default
-            else
-            {
-                profileBitmap = ((BitmapDrawable) mProfile.getDrawable()).getBitmap();
+            if (firebaseProfile != null) {
+                try {
+                    profileBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), firebaseProfile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
                 roundedBitmapDrawable.setCircular(true);
                 mProfile.setImageDrawable(roundedBitmapDrawable);

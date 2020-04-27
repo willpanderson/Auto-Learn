@@ -33,7 +33,7 @@ public class ProfileSettings extends AppCompatActivity {
         button3 = findViewById(R.id.delete_account_button);
 
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent inten = new Intent(ProfileSettings.this, PasswordChange.class);
@@ -41,7 +41,7 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent inten2 = new Intent(ProfileSettings.this, EmailChange.class);

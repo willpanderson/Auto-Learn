@@ -56,7 +56,7 @@ public class ProfileIDSignup extends AppCompatActivity implements AdapterView.On
         firebaseUser = mauth.getCurrentUser();
 
 
-        next_button = findViewById(R.id.verify_new_email_button);
+        next_button = findViewById(R.id.next_verify_button);
         utaID = findViewById(R.id.editText2);
         spinner = findViewById(R.id.simpleSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout

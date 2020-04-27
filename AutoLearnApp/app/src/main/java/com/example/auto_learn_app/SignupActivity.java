@@ -46,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         email = findViewById(R.id.emailReset);
         passwod = findViewById(R.id.passwordSignup);
         passwod2 = findViewById(R.id.confirmSignup);
-        btnSignUp = findViewById(R.id.resetButton);
+        btnSignUp = findViewById(R.id.nextButton);
         name = findViewById(R.id.nameSignup);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +87,7 @@ public class SignupActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-                                                            //mAnalytics.setUserId(MavsAcct);
-                                                            Intent s = new Intent(SignupActivity.this, EmailVerification.class);
+                                                            Intent s = new Intent(SignupActivity.this, ProfileIDSignup.class);
                                                             startActivity(s);
                                                         }
                                                     }

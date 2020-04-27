@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B1A1A"
-    tools:context=".PasswordReset">
+    tools:context=".EmailChange">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,8 +36,8 @@
             android:layout_width="217dp"
             android:layout_height="57dp"
             android:fontFamily="cursive"
-            android:text="Password Reset"
-            android:textSize="36sp"
+            android:text="Please Enter A New Email"
+            android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.48"
@@ -49,7 +49,7 @@
             android:id="@+id/nextButton"
             android:layout_width="241dp"
             android:layout_height="60dp"
-            android:text="Send Reset Link"
+            android:text="Verify Email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

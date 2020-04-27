@@ -73,11 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView mProfile;
     FloatingActionButton mButton;
     Button classifyButton;
-    private TextView name;
+    private TextView name,utaID;
     private Bitmap bitmap;
     private Bitmap profileBitmap;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    FirebaseAnalytics mAnalytics;
     private FirebaseVisionImage image;
     private String[] result = new String[6];
     private boolean uploaded_for_model = false;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Set the Firebase Authenticator and user
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
+        mAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
         // Display the Navigation view
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -110,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Update the name of the user in navigation header
         name = (TextView) hView.findViewById(R.id.profile_name);
+        utaID = (TextView) hView.findViewById(R.id.profile_id);
         if (user != null)
             name.setText(user.getDisplayName());
-
         // Declare our image views
         IDProf=(ImageView)findViewById(R.id.IDProf);
         mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
@@ -394,6 +395,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
+            case R.id.nav_settings:
+                Intent profileIntent = new Intent(MainActivity.this,ProfileSettings.class);
+                startActivity(profileIntent);
+                finish();
+                break;
             case R.id.nav_about:
                 Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
 

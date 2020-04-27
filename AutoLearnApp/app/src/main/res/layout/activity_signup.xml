@@ -19,18 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.572">
 
-        <ImageView
-            android:id="@+id/signup_picture"
-            android:layout_width="193dp"
-            android:layout_height="133dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.07"
-            app:srcCompat="@drawable/profile" />
-
         <EditText
             android:id="@+id/nameSignup"
             android:layout_width="300dp"
@@ -42,18 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.435" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select an Image (Optional)"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.323" />
+            app:layout_constraintVertical_bias="0.125" />
 
         <EditText
             android:id="@+id/emailReset"
@@ -66,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameSignup"
-            app:layout_constraintVertical_bias="0.052" />
+            app:layout_constraintVertical_bias="0.08" />
 
         <EditText
             android:id="@+id/passwordSignup"
@@ -80,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailReset"
-            app:layout_constraintVertical_bias="0.227" />
+            app:layout_constraintVertical_bias="0.168" />
 
         <EditText
             android:id="@+id/confirmSignup"
@@ -93,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordSignup"
-            app:layout_constraintVertical_bias="0.098" />
+            app:layout_constraintVertical_bias="0.151" />
 
         <Button
             android:id="@+id/next_mav_button"

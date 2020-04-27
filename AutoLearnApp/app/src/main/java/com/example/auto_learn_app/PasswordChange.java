@@ -24,6 +24,7 @@ public class PasswordChange extends AppCompatActivity {
         setContentView(R.layout.activity_password_change);
         newer = findViewById(R.id.editText);
         conf = findViewById(R.id.editText3);
+        nextb = findViewById(R.id.nextButton);
         newPassword = newer.getText().toString().trim();
         confirmPass = conf.getText().toString().trim();
 

@@ -25,7 +25,7 @@ public class ProfileSettings extends AppCompatActivity {
         button3 = findViewById(R.id.button2);
 
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent inten = new Intent(ProfileSettings.this, EmailChange.class);
@@ -33,7 +33,7 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent inten2 = new Intent(ProfileSettings.this, PasswordChange.class);

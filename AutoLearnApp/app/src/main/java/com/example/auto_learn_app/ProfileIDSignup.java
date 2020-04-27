@@ -88,7 +88,7 @@ public class ProfileIDSignup extends AppCompatActivity implements AdapterView.On
                     user.put("UTA_ID", IDcheck);
                     user.put("PROFESSION", profession);
 
-                    db.collection("cities").document(firebaseUser.getDisplayName())
+                    db.collection("users").document(firebaseUser.getDisplayName())
                             .set(user)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

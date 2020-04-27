@@ -34,7 +34,7 @@ public class EmailChange extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                user.updateEmail("user@example.com")
+                user.updateEmail(newemail)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

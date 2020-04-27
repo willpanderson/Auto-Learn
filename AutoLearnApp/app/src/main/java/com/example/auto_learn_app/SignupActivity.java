@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         email = findViewById(R.id.emailReset);
         passwod = findViewById(R.id.passwordSignup);
         passwod2 = findViewById(R.id.confirmSignup);
-        btnSignUp = findViewById(R.id.verify_new_email_button);
+        btnSignUp = findViewById(R.id.next_mav_button);
         name = findViewById(R.id.nameSignup);
         mProfile= findViewById(R.id.signup_picture);
         mProfile.setOnClickListener(new View.OnClickListener() {

@@ -19,6 +19,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.384">
 
+        <Button
+            android:id="@+id/send_verify_button"
+            android:layout_width="241dp"
+            android:layout_height="60dp"
+            android:text="Send Verficiation Email"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.579" />
+
         <TextView
             android:id="@+id/eVerifyLogo"
             android:layout_width="217dp"
@@ -31,17 +42,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.113" />
-
-        <Button
-            android:id="@+id/verify_new_email_button"
-            android:layout_width="241dp"
-            android:layout_height="60dp"
-            android:text="Send Verficiation Email"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.585" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,6 +8,17 @@
     tools:context=".ProfileIDSignup">
 
 
+    <Button
+        android:id="@+id/next_verify_button"
+        android:layout_width="241dp"
+        android:layout_height="60dp"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.895" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="332dp"
@@ -72,17 +83,6 @@
             app:layout_constraintVertical_bias="0.611" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/verify_new_email_button"
-        android:layout_width="241dp"
-        android:layout_height="60dp"
-        android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarSignup"

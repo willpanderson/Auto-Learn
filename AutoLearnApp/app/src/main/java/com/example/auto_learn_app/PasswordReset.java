@@ -9,13 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
 
 public class PasswordReset extends AppCompatActivity {
     androidx.appcompat.widget.Toolbar toolbar;
@@ -27,14 +24,14 @@ public class PasswordReset extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passwordreset);
-        toolbar = findViewById(R.id.toolbarProfile);
+        toolbar = findViewById(R.id.toolbar_password_reset);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Reset Password");
+        getSupportActionBar().setTitle("Reset Password");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         auth = FirebaseAuth.getInstance();
         resetEmail = findViewById(R.id.emailReset);
-        initiatereset = findViewById(R.id.nextButton);
+        initiatereset = findViewById(R.id.verify_new_email_button);
         initiatereset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

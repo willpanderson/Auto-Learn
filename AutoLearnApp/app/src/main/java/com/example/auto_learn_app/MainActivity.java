@@ -328,6 +328,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                 }
                 else if (options[item].equals("Cancel")) {
+                    uploaded_for_model = false;
+                    uploaded_for_profile = false;
                     dialog.dismiss();
                 }
             }

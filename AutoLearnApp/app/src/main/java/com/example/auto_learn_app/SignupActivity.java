@@ -18,10 +18,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,9 +32,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-
-import java.util.Objects;
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -75,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         email = findViewById(R.id.emailReset);
         passwod = findViewById(R.id.passwordSignup);
         passwod2 = findViewById(R.id.confirmSignup);
-        btnSignUp = findViewById(R.id.nextButton);
+        btnSignUp = findViewById(R.id.verify_new_email_button);
         name = findViewById(R.id.nameSignup);
         mProfile= findViewById(R.id.signup_picture);
         mProfile.setOnClickListener(new View.OnClickListener() {

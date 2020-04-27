@@ -10,9 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Space;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,7 +55,7 @@ public class ProfileIDSignup extends AppCompatActivity implements AdapterView.On
         firebaseUser = mauth.getCurrentUser();
 
 
-        next_button = findViewById(R.id.nextButton);
+        next_button = findViewById(R.id.verify_new_email_button);
         utaID = findViewById(R.id.editText2);
         spinner = findViewById(R.id.simpleSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout

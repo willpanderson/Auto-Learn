@@ -34,7 +34,7 @@ public class EmailVerification extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        mVerfiy = findViewById(R.id.nextButton);
+        mVerfiy = findViewById(R.id.verify_new_email_button);
         assert user != null;
         mVerfiy.setOnClickListener(new View.OnClickListener() {
             @Override

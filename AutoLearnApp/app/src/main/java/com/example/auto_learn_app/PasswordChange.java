@@ -33,7 +33,7 @@ public class PasswordChange extends AppCompatActivity {
 
         newer = findViewById(R.id.editText);
         conf = findViewById(R.id.editText3);
-        nextb = findViewById(R.id.nextButton);
+        nextb = findViewById(R.id.change_password_button);
         newPassword = newer.getText().toString().trim();
         confirmPass = conf.getText().toString().trim();
 

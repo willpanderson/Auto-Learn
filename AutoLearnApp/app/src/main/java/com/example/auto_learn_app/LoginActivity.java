@@ -68,12 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     password.setError("Enter a password");
                     password.requestFocus();
                 }
-                else if (email2.isEmpty() && pass.isEmpty()){
-                    Toast.makeText(LoginActivity.this, "Please enter your credentials", Toast.LENGTH_SHORT).show();
-                    email.requestFocus();
-                    password.requestFocus();
-                }
-                else if (! (email2.isEmpty() && pass.isEmpty())){
+                else {
                     mAuth.signInWithEmailAndPassword(email2,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,9 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ProfileIDSignup extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -86,7 +87,7 @@ public class ProfileIDSignup extends AppCompatActivity implements AdapterView.On
                     user.put("UTA_ID", IDcheck);
                     user.put("PROFESSION", profession);
 
-                    db.collection("users").document(firebaseUser.getDisplayName())
+                    db.collection("users").document(Objects.requireNonNull(firebaseUser.getDisplayName()))
                             .set(user)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

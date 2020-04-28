@@ -57,6 +57,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
+import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
@@ -153,14 +154,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (user != null) {
             Uri firebaseProfile = user.getPhotoUrl();
             if (firebaseProfile != null) {
-                try {
-                    profileBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), firebaseProfile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
-                roundedBitmapDrawable.setCircular(true);
-                mProfile.setImageDrawable(roundedBitmapDrawable);
+                Picasso.get().load(firebaseProfile).transform(new CircleTransform()).into(mProfile);
+            }
+            else
+            {
+                Picasso.get().load(R.drawable.profile).transform(new CircleTransform()).into(mProfile);
             }
         }
 
@@ -170,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 uploaded_for_model = false;
                 uploaded_for_profile = true;
-                selectImage();
+                selectProfileImage();
             }
         });
 
@@ -242,10 +240,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case CAMERA_PERMISSION_CODE:
                     Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
                     intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (uploaded_for_model)
-                        startActivityForResult(intent,1);
-                    else if (uploaded_for_profile)
-                        startActivityForResult(intent, 3);
+                    startActivityForResult(intent,1);
+
                     break;
                 case STORAGE_PERMISSION_CODE:
                     Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
@@ -253,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (uploaded_for_model)
                         startActivityForResult(intent,2);
                     else if (uploaded_for_profile)
-                        startActivityForResult(intent, 4);
+                        startActivityForResult(intent, 3);
                     break;
             }
         }
@@ -270,10 +266,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (uploaded_for_model)
-                        startActivityForResult(intent,1);
-                    else if (uploaded_for_profile)
-                        startActivityForResult(intent, 3);
+
+                    startActivityForResult(intent,1);
+
                 }
                 else {
                     Toast.makeText(MainActivity.this,
@@ -290,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (uploaded_for_model)
                         startActivityForResult(intent,2);
                     else if (uploaded_for_profile)
-                        startActivityForResult(intent, 4);
+                        startActivityForResult(intent, 3);
                 }
                 else {
                     Toast.makeText(MainActivity.this,
@@ -316,6 +311,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
                 }
                 else if (options[item].equals("Choose from Gallery"))
+                {
+                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                }
+                else if (options[item].equals("Cancel")) {
+                    uploaded_for_model = false;
+                    uploaded_for_profile = false;
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void selectProfileImage() {
+        final CharSequence[] options = { "Choose from Gallery","Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Select photo");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Choose from Gallery"))
                 {
                     checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
                 }
@@ -358,13 +374,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (requestCode == 3)
             {
-                profileBitmap = (Bitmap) data.getExtras().get("data");
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
-                roundedBitmapDrawable.setCircular(true);
-                mProfile.setImageDrawable(roundedBitmapDrawable);
-            }
-            else if (requestCode == 4)
-            {
                 final Uri selectedImage = data.getData();
                 if (user != null)
                 {
@@ -375,22 +384,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        String[] filePath = { MediaStore.Images.Media.DATA };
-                                        Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                                        c.moveToFirst();
-                                        int columnIndex = c.getColumnIndex(filePath[0]);
-                                        String picturePath = c.getString(columnIndex);
-                                        c.close();
-                                        profileBitmap = (BitmapFactory.decodeFile(picturePath));
-                                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileBitmap);
-                                        roundedBitmapDrawable.setCircular(true);
-                                        mProfile.setImageDrawable(roundedBitmapDrawable);
+                                        Picasso.get().load(selectedImage).transform(new CircleTransform()).into(mProfile);
                                     }
                                 }
                             });
                 }
 
             }
+        }
+        else if (resultCode == RESULT_CANCELED)
+        {
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT);
         }
     }
 

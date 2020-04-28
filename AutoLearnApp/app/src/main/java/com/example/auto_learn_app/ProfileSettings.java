@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,8 +39,8 @@ public class ProfileSettings extends AppCompatActivity implements DeleteDialog.D
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inten = new Intent(ProfileSettings.this, PasswordChange.class);
-                startActivity(inten);
+                Toast.makeText(ProfileSettings.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
+                openDialog(2);
             }
         });
 
@@ -54,16 +55,27 @@ public class ProfileSettings extends AppCompatActivity implements DeleteDialog.D
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
-
+                Toast.makeText(ProfileSettings.this, "Account Deleted", Toast.LENGTH_SHORT).show();
+                openDialog(1);
             }
         });
     }
 
-    private void openDialog() {
-        DeleteDialog deleteDialog = new DeleteDialog();
-        deleteDialog.show(getSupportFragmentManager(),"delete dialog");
+    private void openDialog(int choice) {
+        switch (choice)
+        {
+            case 1:
+                DeleteDialog deleteDialog = new DeleteDialog();
+                deleteDialog.show(getSupportFragmentManager(),"delete dialog");
+                break;
+            case 2:
+                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
+                changePasswordDialog.show(getSupportFragmentManager(), "change password dialog");
+                break;
+        }
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -18,7 +18,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="432dp"
-        android:background="#0099cc">
+        android:background="#90B5C1">
 
         <EditText
             android:id="@+id/emailEntry"
@@ -53,14 +53,14 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            app:passwordToggleEnabled="true"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             app:layout_constraintBottom_toTopOf="@+id/loginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.814" />
+            app:layout_constraintVertical_bias="0.814"
+            app:passwordToggleEnabled="true" />
 
         <TextView
             android:id="@+id/textView11"

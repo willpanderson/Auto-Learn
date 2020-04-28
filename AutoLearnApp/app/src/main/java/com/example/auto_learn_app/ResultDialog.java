@@ -27,6 +27,7 @@ public class ResultDialog extends AppCompatDialogFragment {
     private TextView guess4;
     private TextView guess5;
     private TextView guess6;
+    private int max;
 
     @NonNull
     @Override
@@ -39,6 +40,7 @@ public class ResultDialog extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Image Results").setPositiveButton("OK", null);
 
         results = listener.getResults();
+        max = listener.getMax();
         imageView = view.findViewById(R.id.results_image);
         image = listener.getImage();
         imageView.setImageBitmap(image);
@@ -50,11 +52,35 @@ public class ResultDialog extends AppCompatDialogFragment {
         guess5 = view.findViewById(R.id.guess5);
         guess6 = view.findViewById(R.id.guess6);
 
+        if (max == 0)
+        {
+            guess1.setTextSize(26);
+        }
         guess1.setText(results[0]);
+        if (max == 1)
+        {
+            guess2.setTextSize(26);
+        }
         guess2.setText(results[1]);
+        if (max == 2)
+        {
+            guess3.setTextSize(26);
+        }
         guess3.setText(results[2]);
+        if (max == 3)
+        {
+            guess4.setTextSize(26);
+        }
         guess4.setText(results[3]);
+        if (max == 4)
+        {
+            guess5.setTextSize(26);
+        }
         guess5.setText(results[4]);
+        if (max == 5)
+        {
+            guess6.setTextSize(26);
+        }
         guess6.setText(results[5]);
         return builder.create();
     }
@@ -73,5 +99,6 @@ public class ResultDialog extends AppCompatDialogFragment {
     public interface ResultDialogListener {
         Bitmap getImage();
         String[] getResults();
+        int getMax();
     }
 }

@@ -3,12 +3,14 @@ package com.example.auto_learn_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +42,8 @@ public class EmailChange extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+                String newemail = editnewe.getText().toString().trim();
+                assert user != null;
                 user.updateEmail(newemail)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -48,6 +51,10 @@ public class EmailChange extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Intent reverify = new Intent(EmailChange.this, EmailVerification.class);
                                     startActivity(reverify);
+                                }
+                                else if(!task.isSuccessful())
+                                {
+                                    Toast.makeText(EmailChange.this,"An error has occurred while changing your email.",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

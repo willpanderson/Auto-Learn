@@ -56,7 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ResultDialog.ResultDialogListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ResultDialog.ResultDialogListener, StatsDialog.StatsDialogListener {
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToggle;
     androidx.appcompat.widget.Toolbar toolbar;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean has_been_uploaded = false;
     private NavigationView navigationView;
     private View hView;
+    private int idx;
 
 
     // Defining Permission codes.
@@ -409,13 +410,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             case R.id.stats:
                 if (sum[0] != 0) {
-                    Intent intent = new Intent(MainActivity.this, StatsActivity.class);
-                    intent.putExtra("data",sum);
-                    startActivity(intent);
-                    Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT).show();
+                    openStats();
                 }
                 else
-                    Toast.makeText(MainActivity.this, "Upload to get started", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Upload to get started", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -460,6 +459,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void openStats() {
+        StatsDialog statsDialog = new StatsDialog();
+        statsDialog.show(getSupportFragmentManager(),"stats dialog");
+
+    }
+
     @Override
     public Bitmap getImage() {
         return bitmap;
@@ -467,6 +472,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public String[] getResults() { return result; }
+
+    @Override
+    public int getMax() {
+        return idx;
+    }
 
 
     public void runModel() {
@@ -491,13 +501,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         public void onSuccess(List<FirebaseVisionImageLabel> labels) {
                             String text = "";
                             float confidence;
-                            int i = 0;
+                            float largest = 0;
 
                             for (FirebaseVisionImageLabel label: labels) {
                                 text = label.getText();
                                 confidence = label.getConfidence();
-                                sum[i] += confidence;
-                                result[i++] = text + "  " + confidence;
+
+                                if (text.equalsIgnoreCase("convertible"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 0;
+                                    }
+                                    sum[0] += confidence;
+                                    result[0] = text + "  " + confidence;
+                                }
+                                else if (text.equalsIgnoreCase("coupe"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 1;
+                                    }
+                                    sum[1] += confidence;
+                                    result[1] = text + "  " + confidence;
+                                }
+                                else if (text.equalsIgnoreCase("sedan"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 2;
+                                    }
+                                    sum[2] += confidence;
+                                    result[2] = text + "  " + confidence;
+                                }
+                                else if (text.equalsIgnoreCase("suv"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 3;
+                                    }
+                                    sum[3] += confidence;
+                                    result[3] = text + "  " + confidence;
+                                }
+                                else if (text.equalsIgnoreCase("truck"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 4;
+                                    }
+                                    sum[4] += confidence;
+                                    result[4] = text + "  " + confidence;
+                                }
+                                else if (text.equalsIgnoreCase("van"))
+                                {
+                                    if (confidence >= largest)
+                                    {
+                                        largest = confidence;
+                                        idx = 5;
+                                    }
+                                    sum[5] += confidence;
+                                    result[5] = text + "  " + confidence;
+                                }
                             }
 
                             openDialog();
@@ -516,5 +585,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @Override
+    public float[] getSums() {
+        return sum;
+    }
 }
 

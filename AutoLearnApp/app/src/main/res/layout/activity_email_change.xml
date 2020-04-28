@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_email_change"
-        android:layout_width="389dp"
+        android:layout_width="397dp"
         android:layout_height="58dp"
         android:background="#0099cc"
         android:minHeight="?attr/actionBarSize"

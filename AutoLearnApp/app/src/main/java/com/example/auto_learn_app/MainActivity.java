@@ -201,205 +201,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
-        }
-
-    private void displayInfo(String ID, String prof) {
-        utaID.setText(ID);
-        profession.setText(prof);
-
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  T O O L    B A R    M E N U
+    //////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
         return super.onCreateOptionsMenu(menu);
-    }
-    // Function to check and request permission.
-    public void checkPermission(String permission, int requestCode)
-    {
-        Intent intent;
-        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
-                == PackageManager.PERMISSION_DENIED) {
-
-            // Requesting the permission
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
-        }
-        else {
-            switch (requestCode) {
-                case CAMERA_PERMISSION_CODE:
-                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
-                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent,1);
-
-                    break;
-                case STORAGE_PERMISSION_CODE:
-                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
-                    intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    if (uploaded_for_model)
-                        startActivityForResult(intent,2);
-                    else if (uploaded_for_profile)
-                        startActivityForResult(intent, 3);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode)
-        {
-            case CAMERA_PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    startActivityForResult(intent,1);
-
-                }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "Camera Permission Denied",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-                break;
-            }
-            case STORAGE_PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    if (uploaded_for_model)
-                        startActivityForResult(intent,2);
-                    else if (uploaded_for_profile)
-                        startActivityForResult(intent, 3);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "Storage Permission Denied",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-                break;
-            }
-        }
-
-    }
-
-    private void selectImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Select photo");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
-                    checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
-                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-                }
-                else if (options[item].equals("Cancel")) {
-                    uploaded_for_model = false;
-                    uploaded_for_profile = false;
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    private void selectProfileImage() {
-        final CharSequence[] options = { "Choose from Gallery","Cancel" };
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Select photo");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Choose from Gallery"))
-                {
-                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-                }
-                else if (options[item].equals("Cancel")) {
-                    uploaded_for_model = false;
-                    uploaded_for_profile = false;
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                IDProf.setImageBitmap(bitmap);
-                image = FirebaseVisionImage.fromBitmap(bitmap);
-                has_been_uploaded = true;
-                runModel();
-                
-            } else if (requestCode == 2) {
-                Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                bitmap = (BitmapFactory.decodeFile(picturePath));
-                bitmap=getResizedBitmap(bitmap, 400);
-                Log.w("path of image from gallery......******************.........", picturePath+"");
-                IDProf.setImageBitmap(bitmap);
-                image = FirebaseVisionImage.fromBitmap(bitmap);
-                has_been_uploaded = true;
-                runModel();
-            }
-            else if (requestCode == 3)
-            {
-                final Uri selectedImage = data.getData();
-                if (user != null)
-                {
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setPhotoUri(selectedImage).build();
-                    user.updateProfile(profileUpdates)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Picasso.get().load(selectedImage).transform(new CircleTransform()).into(mProfile);
-                                    }
-                                }
-                            });
-                }
-
-            }
-        }
-        else if (resultCode == RESULT_CANCELED)
-        {
-            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT);
-        }
-    }
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     @Override
@@ -411,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.stats:
                 if (sum[0] != 0) {
                     Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT).show();
-                    openStats();
+                    showModelStatistics();
                 }
                 else
                     Toast.makeText(this, "Upload to get started", Toast.LENGTH_SHORT).show();
@@ -420,25 +230,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  N A V I G A T I O N    V I E W    M E N U   I T E M S
+    //////
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
             case R.id.nav_settings:
+                Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
                 Intent profileIntent = new Intent(MainActivity.this,ProfileSettings.class);
                 startActivity(profileIntent);
                 finish();
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "Model Information", Toast.LENGTH_SHORT).show();
-
-                Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
-                startActivity(infoIntent);
-                finish();
+                showModelInformation();
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-
                 signOut();
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
@@ -448,35 +259,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
-    private void signOut() {
-        FirebaseAuth.getInstance().signOut();
-    }
-    private void openDialog() {
-        ResultDialog resultDialog = new ResultDialog();
-        resultDialog.show(getSupportFragmentManager(),"result dialog");
-
-    }
-
-    private void openStats() {
-        StatsDialog statsDialog = new StatsDialog();
-        statsDialog.show(getSupportFragmentManager(),"stats dialog");
-
-    }
-
-    @Override
-    public Bitmap getImage() {
-        return bitmap;
-    }
-
-    @Override
-    public String[] getResults() { return result; }
-
-    @Override
-    public int getMax() {
-        return idx;
-    }
 
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  R U N   M O D E L   O N   S E L E C T E D   I M A G E
+    //////          S A V E   D A T A   F O R   U S E   I N   D I A L O G S
     public void runModel() {
 
         // Build the model
@@ -581,11 +368,258 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+    
+    
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  O P E N    D I A L O G    M E T H O D S
+    //////
+    private void showModelInformation() {
+        InformationDialog informationDialog = new InformationDialog();
+        informationDialog.show(getSupportFragmentManager(),"info dialog");
+    }
+
+    private void openDialog() {
+        ResultDialog resultDialog = new ResultDialog();
+        resultDialog.show(getSupportFragmentManager(),"result dialog");
+    }
+
+    private void showModelStatistics() {
+        StatsDialog statsDialog = new StatsDialog();
+        statsDialog.show(getSupportFragmentManager(),"stats dialog");
+    }
 
 
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  R E S U L T   D I A L O G    I N T E R F A C E
+    //////
+    @Override
+    public Bitmap getImage() {
+        return bitmap;
+    }
+
+    @Override
+    public String[] getResults() { return result; }
+
+    @Override
+    public int getMax() {
+        return idx;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  S T A T S   D I A L O G    I N T E R F A C E
+    //////
     @Override
     public float[] getSums() {
         return sum;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  C A M E R A     A N D     G A L L E R Y    P E R M I S S I O N S
+    //////
+    private void selectImage() {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Select photo");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo"))
+                {
+                    checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
+                }
+                else if (options[item].equals("Choose from Gallery"))
+                {
+                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                }
+                else if (options[item].equals("Cancel")) {
+                    uploaded_for_model = false;
+                    uploaded_for_profile = false;
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    private void selectProfileImage() {
+        final CharSequence[] options = { "Choose from Gallery","Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Select photo");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Choose from Gallery"))
+                {
+                    checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+                }
+                else if (options[item].equals("Cancel")) {
+                    uploaded_for_model = false;
+                    uploaded_for_profile = false;
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode)
+    {
+        Intent intent;
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
+                == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
+        }
+        else {
+            switch (requestCode) {
+                case CAMERA_PERMISSION_CODE:
+                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent,1);
+
+                    break;
+                case STORAGE_PERMISSION_CODE:
+                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
+                    intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,2);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 3);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode)
+        {
+            case CAMERA_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this, "Opening camera", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    startActivityForResult(intent,1);
+
+                }
+                else {
+                    Toast.makeText(MainActivity.this,
+                            "Camera Permission Denied",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            }
+            case STORAGE_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this, "Opening gallery", Toast.LENGTH_SHORT).show();
+                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    if (uploaded_for_model)
+                        startActivityForResult(intent,2);
+                    else if (uploaded_for_profile)
+                        startActivityForResult(intent, 3);
+                }
+                else {
+                    Toast.makeText(MainActivity.this,
+                            "Storage Permission Denied",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                IDProf.setImageBitmap(bitmap);
+                image = FirebaseVisionImage.fromBitmap(bitmap);
+                has_been_uploaded = true;
+                runModel();
+
+            } else if (requestCode == 2) {
+                Uri selectedImage = data.getData();
+                String[] filePath = { MediaStore.Images.Media.DATA };
+                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                bitmap = (BitmapFactory.decodeFile(picturePath));
+                bitmap=getResizedBitmap(bitmap, 400);
+                Log.w("path of image from gallery......******************.........", picturePath+"");
+                IDProf.setImageBitmap(bitmap);
+                image = FirebaseVisionImage.fromBitmap(bitmap);
+                has_been_uploaded = true;
+                runModel();
+            }
+            else if (requestCode == 3)
+            {
+                final Uri selectedImage = data.getData();
+                if (user != null)
+                {
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(selectedImage).build();
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Picasso.get().load(selectedImage).transform(new CircleTransform()).into(mProfile);
+                                    }
+                                }
+                            });
+                }
+
+            }
+        }
+        else if (resultCode == RESULT_CANCELED)
+        {
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT);
+        }
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  H E L P E R    M E T H O D S
+    //////
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+
+    private void displayInfo(String ID, String prof) {
+        utaID.setText(ID);
+        profession.setText(prof);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
     }
 }
 

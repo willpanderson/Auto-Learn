@@ -10,7 +10,6 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,22 +17,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,8 +35,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,14 +51,9 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ResultDialog.ResultDialogListener {
     DrawerLayout mDrawerLayout;
@@ -84,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseFirestore db;
     FirebaseAnalytics mAnalytics;
     private FirebaseVisionImage image;
+    private float[] sum = new float[6];
     private String[] result = new String[6];
     private boolean uploaded_for_model = false;
     private boolean uploaded_for_profile = false;
@@ -416,7 +404,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId())
         {
             case R.id.stats:
-                Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT);
+                if (sum[0] != 0) {
+                    Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+                    intent.putExtra("data",sum);
+                    startActivity(intent);
+                    Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT);
+                }
+                else
+                    Toast.makeText(MainActivity.this, "Upload to get started", Toast.LENGTH_SHORT);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -497,9 +492,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             for (FirebaseVisionImageLabel label: labels) {
                                 text = label.getText();
                                 confidence = label.getConfidence();
-
+                                sum[i] += confidence;
                                 result[i++] = text + "  " + confidence;
                             }
+
                             openDialog();
                         }
                     })
@@ -514,5 +510,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
 }
 

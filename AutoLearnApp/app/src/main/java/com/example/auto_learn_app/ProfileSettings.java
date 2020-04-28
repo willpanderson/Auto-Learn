@@ -39,7 +39,6 @@ public class ProfileSettings extends AppCompatActivity implements DeleteDialog.D
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfileSettings.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
                 openDialog(2);
             }
         });
@@ -55,7 +54,6 @@ public class ProfileSettings extends AppCompatActivity implements DeleteDialog.D
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfileSettings.this, "Account Deleted", Toast.LENGTH_SHORT).show();
                 openDialog(1);
             }
         });

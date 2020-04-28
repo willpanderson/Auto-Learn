@@ -179,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (uploaded_for_model || has_been_uploaded )
-                    runModel();
+                    openDialog();
                 else
                 {
-                    Toast.makeText(MainActivity.this, "Please upload a photo", Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this, "Please upload a photo", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.nav_about:
-                Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Model Information", Toast.LENGTH_SHORT).show();
 
                 Intent infoIntent = new Intent(MainActivity.this, InformationActivity.class);
                 startActivity(infoIntent);
@@ -450,8 +450,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
-        FirebaseUser mUser = null;
-
     }
     private void openDialog() {
         ResultDialog resultDialog = new ResultDialog();

@@ -14,13 +14,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileSettings extends AppCompatActivity {
+public class ProfileSettings extends AppCompatActivity implements DeleteDialog.DeleteDialogListener {
     Button button1,button2,button3;
     androidx.appcompat.widget.Toolbar toolbar;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         toolbar = findViewById(R.id.toolbar_account_settings);
         setSupportActionBar(toolbar);
@@ -52,22 +54,15 @@ public class ProfileSettings extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                assert user != null;
-                user.delete()
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Intent inten3 = new Intent(ProfileSettings.this, LoginActivity.class);
-                                    startActivity(inten3);
-                                }
-                            }
-                        });
+                openDialog();
 
             }
         });
+    }
+
+    private void openDialog() {
+        DeleteDialog deleteDialog = new DeleteDialog();
+        deleteDialog.show(getSupportFragmentManager(),"delete dialog");
     }
 
     @Override
@@ -83,4 +78,18 @@ public class ProfileSettings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void delete_account() {
+        assert user != null;
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Intent inten3 = new Intent(ProfileSettings.this, LoginActivity.class);
+                            startActivity(inten3);
+                        }
+                    }
+                });
+    }
 }

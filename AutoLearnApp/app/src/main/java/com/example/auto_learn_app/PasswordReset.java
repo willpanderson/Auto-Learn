@@ -31,7 +31,7 @@ public class PasswordReset extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         auth = FirebaseAuth.getInstance();
         resetEmail = findViewById(R.id.emailReset);
-        initiatereset = findViewById(R.id.verify_new_email_button);
+        initiatereset = findViewById(R.id.password_reset_button);
         initiatereset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

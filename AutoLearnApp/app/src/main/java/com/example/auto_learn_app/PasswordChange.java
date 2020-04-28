@@ -19,6 +19,7 @@ public class PasswordChange extends AppCompatActivity {
     private String newPassword, confirmPass;
     EditText newer,conf;
     Button nextb;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     androidx.appcompat.widget.Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,10 @@ public class PasswordChange extends AppCompatActivity {
         newPassword = newer.getText().toString().trim();
         confirmPass = conf.getText().toString().trim();
 
-        nextb = findViewById(R.id.change_password_button);
-
         nextb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (newPassword.equals(confirmPass)) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    assert user != null;
+                if ( newPassword.equals(confirmPass) && user != null ) {
                     user.updatePassword(newPassword)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

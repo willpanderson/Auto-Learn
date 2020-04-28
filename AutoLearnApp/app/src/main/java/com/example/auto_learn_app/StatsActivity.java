@@ -1,22 +1,25 @@
 package com.example.auto_learn_app;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-import android.graphics.Color;
-
 public class StatsActivity extends AppCompatActivity {
-    BarChart barChart;
-    BarData barData;
-    BarDataSet barDataSet;
+   BarChart barChart;
+   BarData barData;
+   BarDataSet barDataSet;
     ArrayList barEntries = new ArrayList<>();
     private float[] data = new float[6];
     private float[] percentages;
@@ -28,7 +31,7 @@ public class StatsActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbarStats);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Model Statistics");
+        getSupportActionBar().setTitle("Model Statistics");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Load data from main
@@ -66,5 +69,16 @@ public class StatsActivity extends AppCompatActivity {
         barEntries.add(new BarEntry(5f, array[4]));
         barEntries.add(new BarEntry(6f, array[5]));
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            Intent homeIntent = new Intent(StatsActivity.this, MainActivity.class);
 
+            startActivity(homeIntent);
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

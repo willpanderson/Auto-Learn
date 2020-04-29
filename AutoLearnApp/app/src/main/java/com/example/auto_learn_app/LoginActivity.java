@@ -23,28 +23,58 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    Button mButton;
-    TextView signUp;
-    TextView mforgot;
-    private FirebaseAuth mAuth;
-    EditText email, password;
-    private FirebaseAuth.AuthStateListener mListener;
-    // Defining Permission codes.
-    // We can give any value
-    // but unique for each permission.
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private boolean permissions_granted = false;
-    private String TAG;
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  A C T I V I T Y     L A Y O U T
+    //////                  V A R I A B L E S
+    ///*/   Button mButton;
+    /**/    TextView signUp;
+    /**/    TextView mforgot;
+    /**/    EditText email, password;
+
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  F I R E   B A S E    V A R I A B L E S
+    //////
+    ///*/  private FirebaseAuth mAuth;
+    /**/   private FirebaseAuth.AuthStateListener mListener;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  C O N S T A N T    P E R M I S S I O N    V A R I A B L E S
+    //////
+    ///*/   private static final int CAMERA_PERMISSION_CODE = 100;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  B O O L E A N    V A R I A B L E    F O R    P E R M I S S I O N S
+    //////
+    ///*/   private boolean permissions_granted = false;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  D E B U G    C O N S O L E    O U T P U T
+    //////
+    ///*/   private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Attach all layout items so that java code
+        // may work
         email = findViewById(R.id.emailEntry);
         password = findViewById(R.id.passwordEntry);
         mButton = (Button) findViewById(R.id.loginButton);
         signUp = (TextView) findViewById(R.id.signupClick);
+        mforgot = (TextView) findViewById(R.id.forgotPsswd);
+
+        // Set up the firebase authenticator for login requests
         mAuth = FirebaseAuth.getInstance();
+
+        // Navigate to SignupActivity to create a profile
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +85,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mforgot = (TextView) findViewById(R.id.forgotPsswd);
+        // Navigate to PasswordReset if the user forgot password and would like a reset password link
+        // sent via email
         mforgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Allow user to log in only if the user has allowed all permissions
+        // and they have entered a valid email and password
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,11 +145,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mListener);
+
+        // Check for all necessary permissions up front
         checkPermission(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,CAMERA_PERMISSION_CODE);
     }
 
 
-    // Function to check and request permission.
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  M E T H O D S    T O    R E Q U E S T    A L L    P E R M I S S I O N S
+    //////
     public void checkPermission(String permission1, String permission2, int requestCode)
     {
         if (ContextCompat.checkSelfPermission(LoginActivity.this, permission1)

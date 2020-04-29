@@ -5,10 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,7 +25,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,44 +46,81 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 import com.squareup.picasso.Picasso;
-
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ResultDialog.ResultDialogListener, StatsDialog.StatsDialogListener {
-    DrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle mToggle;
-    androidx.appcompat.widget.Toolbar toolbar;
-    ImageView IDProf;
-    ImageView mProfile;
-    FloatingActionButton mButton;
-    Button classifyButton;
-    private TextView name,utaID,profession;
-    private Bitmap bitmap;
-    private Bitmap profileBitmap;
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
-    private FirebaseFirestore db;
-    FirebaseAnalytics mAnalytics;
-    private FirebaseVisionImage image;
-    private float[] sum = new float[6];
-    private String[] result = new String[6];
-    private boolean uploaded_for_model = false;
-    private boolean uploaded_for_profile = false;
-    private boolean has_been_uploaded = false;
-    private NavigationView navigationView;
-    private View hView;
-    private int idx;
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  F I R E   B A S E    V A R I A B L E S
+    //////
+    ///*/  private FirebaseAuth mAuth;
+    /**/   private FirebaseUser user;
+    /**/   private FirebaseFirestore db;
+    /**/   private FirebaseAnalytics mAnalytics;
+    /**/   private FirebaseVisionImage image;
+    /**/   private Bitmap bitmap;
 
 
-    // Defining Permission codes.
-    // We can give any value
-    // but unique for each permission.
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private static final int STORAGE_PERMISSION_CODE = 101;
-    private String TAG;
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  C L A S S I F I C A T I O N    R E S U L T S
+    //////              D A T A    V A R I A B L E S
+    ///*/   private float[] sum = new float[6];
+    /**/    private String[] result = new String[6];
+    /**/    private int idx;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  B O O L E A N    V A R I A B L E S
+    //////
+    ///*/   private boolean uploaded_for_model = false;   // Image should be used with runModel()
+    /**/    private boolean uploaded_for_profile = false; // Image shall be stored into firebase
+    /**/    private boolean has_been_uploaded = false;    // If true allow the user to view results and statistics
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  A C T I V I T Y     L A Y O U T
+    //////                  V A R I A B L E S
+    ///*/   FloatingActionButton mButton;     // Select image button
+    /**/    Button classifyButton;            // View Results button
+    /**/
+    /**/    // Navigation view variables
+    /**/    private NavigationView navigationView;
+    /**/    private DrawerLayout mDrawerLayout;
+    /**/    private ActionBarDrawerToggle mToggle;
+    /**/
+    /**/    // Activity toolbar with Title and buttons
+    /**/    private androidx.appcompat.widget.Toolbar toolbar;
+    /**/
+    /**/    private ImageView IDProf;       // Image view for model image
+    /**/    private ImageView mProfile;     // Image view for profile picture
+    /**/
+    /**/    private TextView name,utaID,profession;  // Text views for profile information
+    /**/
+    /**/    private View hView;  // View to contain the Navigation menu header with profile information
+
+
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  C O N S T A N T    D I A L O G    V A R I A B L E S
+    //////
+    ///*/   private static final int RESULTS_DIALOG = 50;
+    /**/    private static final int STATS_DIALOG = 51;
+    /**/    private static final int INFO_DIALOG = 52;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  C O N S T A N T    P E R M I S S I O N    V A R I A B L E S
+    //////
+    ///*/   private static final int CAMERA_PERMISSION_CODE = 100;
+    /**/    private static final int STORAGE_PERMISSION_CODE = 101;
+
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////  D E B U G    C O N S O L E    O U T P U T
+    //////
+    ///*/   private String TAG;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +143,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // in order to access the contents in the lines below
         hView =  navigationView.getHeaderView(0);
 
-        // Update the name of the user in navigation header
+        // Attach the TextViews, ImageViews and Buttons
+        // from the layout file to work with the java code
         name = (TextView) hView.findViewById(R.id.profile_name);
         utaID = (TextView) hView.findViewById(R.id.profile_id);
         profession = (TextView) hView.findViewById(R.id.profile_profession);
-        // Grab the document with UTA_ID and PRofession
-        final DocumentReference docRef = db.collection("users").document(user.getDisplayName());
+        IDProf=(ImageView)findViewById(R.id.IDProf);
+        mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
+        classifyButton = findViewById(R.id.classificationButton);
+
+        // Grab the document with UTA_ID and Profession from Firebase Firestore
+        final DocumentReference docRef = db.collection("users").document(user.getDisplayName());    // Filename is the users name
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -124,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         if (user != null)
-                            displayInfo(document.get("UTA_ID").toString(), document.get("PROFESSION").toString());
+                            displayInfo(document.get("UTA_ID").toString(), document.get("PROFESSION").toString(),user.getDisplayName());  // Call a helper method to set the profile information
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -133,20 +171,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        if (user != null)
-            name.setText(user.getDisplayName());
-        // Declare our image views
-        IDProf=(ImageView)findViewById(R.id.IDProf);
-        mProfile=(ImageView) hView.findViewById(R.id.profile_picture);
 
-        // Set the current profile picture
+        // Set the current profile picture from logged in user
         if (user != null) {
             Uri firebaseProfile = user.getPhotoUrl();
             if (firebaseProfile != null) {
-                Picasso.get().load(firebaseProfile).transform(new CircleTransform()).into(mProfile);
+                // Display the circle image of the users profile, if it cannot find it display the standard profile picture
+                Picasso.get().load(firebaseProfile).error(R.drawable.profile).transform(new CircleTransform()).into(mProfile);
             }
             else
             {
+                // If user has no picture display default picture
                 Picasso.get().load(R.drawable.profile).transform(new CircleTransform()).into(mProfile);
             }
         }
@@ -157,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 uploaded_for_model = false;
                 uploaded_for_profile = true;
-                selectProfileImage();
+                selectProfileImage();   // Allow user to choose from Gallery app
             }
         });
 
@@ -168,20 +203,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 uploaded_for_model = true;
                 uploaded_for_profile = false;
-                 selectImage();
+                selectImage();        // Allow user to take pic or choose from Gallery app
             }
         });
 
 
-        // Display the results again by running the model
-        classifyButton = findViewById(R.id.classificationButton);
+        // Listener to display results dialog after an intial upload for model usage
         classifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (uploaded_for_model || has_been_uploaded )
-                    openDialog();
+                    openDialog(RESULTS_DIALOG);
                 else
                 {
+                    // Tell the user to upload a photo to get started with image classification
                     Toast.makeText(MainActivity.this, "Please upload a photo", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -208,22 +243,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar,menu);
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar,menu);   // Set the menu on the toolbar to contain
+        return super.onCreateOptionsMenu(menu);                 // the statistics button
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        // Open the Navigation view if the menu button is selected
         if (mToggle.onOptionsItemSelected(item))
             return true;
+
+        // Handle menu item for Statistics
         switch (item.getItemId())
         {
             case R.id.stats:
-                if (sum[0] != 0) {
+
+                // Check to see if the user has uploaded a photo
+                if (has_been_uploaded) {
                     Toast.makeText(this, "Statistics clicked", Toast.LENGTH_SHORT).show();
-                    showModelStatistics();
+                    openDialog(STATS_DIALOG);   // If it has then open the statistics dialog
                 }
-                else
+                else  // Display a warning to tell user to upload an image
                     Toast.makeText(this, "Upload to get started", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -238,19 +279,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId())
         {
+            // Handle the menu options
             case R.id.nav_settings:
                 Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
+
+                // Switch to the profile settings activity
                 Intent profileIntent = new Intent(MainActivity.this,ProfileSettings.class);
                 startActivity(profileIntent);
                 finish();
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "Model Information", Toast.LENGTH_SHORT).show();
-                showModelInformation();
+
+                // Display the Model Information Dialog
+                openDialog(INFO_DIALOG);
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+
+                // Call sign out to log the user out with Firebase Authenticator
                 signOut();
+
+                // Return to the Login Activity so that user may log in again
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
@@ -263,131 +313,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////  R U N   M O D E L   O N   S E L E C T E D   I M A G E
-    //////          S A V E   D A T A   F O R   U S E   I N   D I A L O G S
+    /////
     public void runModel() {
 
-        // Build the model
+        // Build the model which is located in app > src > main > assets
+        // as model.tflite  (Model trained with Google Firebase ML Kit, Firebase Vision)
         FirebaseAutoMLLocalModel localModel = new FirebaseAutoMLLocalModel.Builder()
                 .setAssetFilePath("manifest.json")
                 .build();
 
-        // Generate a labeler
+        // Generate a labeler to provide the results of the classification
         FirebaseVisionImageLabeler labeler;
         try {
+
+            // Set the labeler to use the model for classification
             final FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
                     new FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)
-                            .setConfidenceThreshold(0.0f)  // Evaluate your model in the Firebase console
-                            // to determine an appropriate value.
-                            .build();
+                            .setConfidenceThreshold(0.0f).build();
+
+
+            // Grab an instance of the labeling object using our machine learning model
+            // then run the image
             labeler = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options);
             labeler.processImage(image)
                     .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                         @Override
                         public void onSuccess(List<FirebaseVisionImageLabel> labels) {
-                            String text = "";
-                            float confidence;
-                            float largest = 0;
 
-                            for (FirebaseVisionImageLabel label: labels) {
-                                text = label.getText();
-                                confidence = label.getConfidence();
+                            // If it successfully processed the image store off the data
+                            // for use in the dialogs using helper method
+                            storeData(labels);
 
-                                if (text.equalsIgnoreCase("convertible"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 0;
-                                    }
-                                    sum[0] += confidence;
-                                    result[0] = text + "  " + confidence;
-                                }
-                                else if (text.equalsIgnoreCase("coupe"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 1;
-                                    }
-                                    sum[1] += confidence;
-                                    result[1] = text + "  " + confidence;
-                                }
-                                else if (text.equalsIgnoreCase("sedan"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 2;
-                                    }
-                                    sum[2] += confidence;
-                                    result[2] = text + "  " + confidence;
-                                }
-                                else if (text.equalsIgnoreCase("suv"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 3;
-                                    }
-                                    sum[3] += confidence;
-                                    result[3] = text + "  " + confidence;
-                                }
-                                else if (text.equalsIgnoreCase("truck"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 4;
-                                    }
-                                    sum[4] += confidence;
-                                    result[4] = text + "  " + confidence;
-                                }
-                                else if (text.equalsIgnoreCase("van"))
-                                {
-                                    if (confidence >= largest)
-                                    {
-                                        largest = confidence;
-                                        idx = 5;
-                                    }
-                                    sum[5] += confidence;
-                                    result[5] = text + "  " + confidence;
-                                }
-                            }
-
-                            openDialog();
+                            // Open the Results dialog to display results
+                            // of the current image classification
+                            openDialog(RESULTS_DIALOG);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            // If it fails present a toast
                             Toast.makeText(MainActivity.this, "Unable to run model",Toast.LENGTH_SHORT);
                         }
                     });
         } catch (FirebaseMLException e) {
+            // Fatal error could not find model
             Toast.makeText(this, "Unable to create labeler",Toast.LENGTH_SHORT);
         }
 
     }
-    
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////  O P E N    D I A L O G    M E T H O D S
+    //////////////  O P E N    D I A L O G    M E T H O D 
     //////
-    private void showModelInformation() {
-        InformationDialog informationDialog = new InformationDialog();
-        informationDialog.show(getSupportFragmentManager(),"info dialog");
+    private void openDialog(int choice) {
+        switch (choice)
+        {
+            case RESULTS_DIALOG:
+                ResultDialog resultDialog = new ResultDialog();
+                resultDialog.show(getSupportFragmentManager(),"result dialog");
+                break;
+            case INFO_DIALOG:
+                InformationDialog informationDialog = new InformationDialog();
+                informationDialog.show(getSupportFragmentManager(),"info dialog");
+                break;
+            case STATS_DIALOG:
+                StatsDialog statsDialog = new StatsDialog();
+                statsDialog.show(getSupportFragmentManager(),"stats dialog");
+                break;
+        }
     }
 
-    private void openDialog() {
-        ResultDialog resultDialog = new ResultDialog();
-        resultDialog.show(getSupportFragmentManager(),"result dialog");
-    }
-
-    private void showModelStatistics() {
-        StatsDialog statsDialog = new StatsDialog();
-        statsDialog.show(getSupportFragmentManager(),"stats dialog");
-    }
 
 
 
@@ -414,6 +411,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public float[] getSums() {
         return sum;
     }
+
+
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -613,13 +613,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void displayInfo(String ID, String prof) {
+    private void displayInfo(String ID, String prof, String userName) {
         utaID.setText(ID);
         profession.setText(prof);
+        name.setText(userName);
     }
+
 
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
+    }
+
+
+
+    private void storeData(List<FirebaseVisionImageLabel> labels) {
+        String text = "";
+        float confidence;
+        float largest = 0;
+
+        for (FirebaseVisionImageLabel label: labels) {
+            text = label.getText();
+            confidence = label.getConfidence();
+
+            if (text.equalsIgnoreCase("convertible"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 0;
+                }
+                sum[0] += confidence;
+                result[0] = text + "  " + confidence;
+            }
+            else if (text.equalsIgnoreCase("coupe"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 1;
+                }
+                sum[1] += confidence;
+                result[1] = text + "  " + confidence;
+            }
+            else if (text.equalsIgnoreCase("sedan"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 2;
+                }
+                sum[2] += confidence;
+                result[2] = text + "  " + confidence;
+            }
+            else if (text.equalsIgnoreCase("suv"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 3;
+                }
+                sum[3] += confidence;
+                result[3] = text + "  " + confidence;
+            }
+            else if (text.equalsIgnoreCase("truck"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 4;
+                }
+                sum[4] += confidence;
+                result[4] = text + "  " + confidence;
+            }
+            else if (text.equalsIgnoreCase("van"))
+            {
+                if (confidence >= largest)
+                {
+                    largest = confidence;
+                    idx = 5;
+                }
+                sum[5] += confidence;
+                result[5] = text + "  " + confidence;
+            }
+
+        }
     }
 }
 

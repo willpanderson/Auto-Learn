@@ -29,7 +29,7 @@ Verify that you have the contents of the repository by listing the directory
 3. Click on the Android project denoted by the green **Android Logo** and hit **OK** <br /> <br />
 
 4. Load an emulated device or connect a device (**Nexus 5x recommended**) <br />
- > <details><summary><b>Instructions for Emulated Device</b></summary>
+  <details><summary><b>Instructions for Emulated Device</b></summary>
   1. From the Android Studio application, up at the top select **No Devices**
   ![](Documentation/Readme_Images/no_devices.JPG)
   

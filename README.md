@@ -12,8 +12,10 @@ GitHub was used to host our git repository, it contains the following items:
 * **Android Studio** must be installed ([Installation Instructions](https://developer.android.com/studio))
 
 # Cloning the repository
+From the cmd prompt or PowerShell type in the instruction 
+**git clone https://github.com/willpanderson/Auto-Learn.git**
 
-From the cmd prompt or PowerShell type in the instruction
+[](Documentation/Readme_Images/clone_repo.jpg)
 
 # Documentation
 * **UML diagrams** - located inside of **Increment1_UML**

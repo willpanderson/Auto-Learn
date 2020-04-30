@@ -8,6 +8,12 @@ GitHub was used to host our git repository, it contains the following items:
 * **Machine Learning** - Dataset and ML material
 
 # AutoLearnApp
+# Prerequisites
+* **Android Studio** must be installed ([Installation Instructions](https://developer.android.com/studio))
+
+# Cloning the repository
+
+From the cmd prompt or PowerShell type in the instruction
 
 # Documentation
 * **UML diagrams** - located inside of **Increment1_UML**

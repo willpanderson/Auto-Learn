@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,6 +40,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.ml.common.FirebaseMLException;
+import com.google.firebase.ml.custom.FirebaseCustomLocalModel;
+import com.google.firebase.ml.custom.FirebaseModelDataType;
+import com.google.firebase.ml.custom.FirebaseModelInputOutputOptions;
+import com.google.firebase.ml.custom.FirebaseModelInputs;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -318,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Build the model which is located in app > src > main > assets
         // as model.tflite  (Model trained with Google Firebase ML Kit, Firebase Vision)
-        FirebaseAutoMLLocalModel localModel = new FirebaseAutoMLLocalModel.Builder()
+        FirebaseCustomLocalModel localModel = new FirebaseCustomLocalModel.Builder()
                 .setAssetFilePath("manifest.json")
                 .build();
 
@@ -327,14 +332,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
 
             // Set the labeler to use the model for classification
-            final FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
-                    new FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)
-                            .setConfidenceThreshold(0.0f).build();
+            final FirebaseModelInputOutputOptions options =
+                    new FirebaseModelInputOutputOptions.Builder()
+                            .setInputFormat(0, FirebaseModelDataType.FLOAT32, new int[]{1, 224, 224, 3})
+                            .setOutputFormat(0, FirebaseModelDataType.FLOAT32, new int[]{1, 5})
+                            .build();
 
+            bitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true);
 
+            int batchNum = 0;
+            float[][][][] input = new float[1][224][224][3];
+            for (int x = 0; x < 224; x++) {
+                for (int y = 0; y < 224; y++) {
+                    int pixel = bitmap.getPixel(x, y);
+                    // Normalize channel values to [-1.0, 1.0]. This requirement varies by
+                    // model. For example, some models might require values to be normalized
+                    // to the range [0.0, 1.0] instead.
+                    input[batchNum][x][y][0] = (Color.red(pixel) - 127) / 128.0f;
+                    input[batchNum][x][y][1] = (Color.green(pixel) - 127) / 128.0f;
+                    input[batchNum][x][y][2] = (Color.blue(pixel) - 127) / 128.0f;
+                }
+            }
             // Grab an instance of the labeling object using our machine learning model
             // then run the image
-            labeler = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options);
+            FirebaseModelInputs inputs = new FirebaseModelInputs.Builder()
+                    .add(input)  // add() as many input arrays as your model requires
+                    .build();
             labeler.processImage(image)
                     .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                         @Override

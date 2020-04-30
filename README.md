@@ -20,13 +20,13 @@ Verify that you have the contents of the repository by listing the directory
 ![](Documentation/Readme_Images/list_repo.JPG)
 
 ### Launching the Android Application
-1. Launch Android Studio <br />
+1. Launch Android Studio <br /> <br />
 ![](Documentation/Readme_Images/open_android_studio.JPG)
 
-2. Select **Open an Existing Android project** and navigate to the directory listed before <br />
+2. Select **Open an Existing Android project** and navigate to the directory listed before <br /> <br />
 ![](Documentation/Readme_Images/find_android_project.JPG)
 
-3. Click on the Android project denoted by the green **Android Logo** and hit **OK** <br />
+3. Click on the Android project denoted by the green **Android Logo** and hit **OK** <br /> <br />
 
 4. Load an emulated device or connect a device (**Nexus 5x recommended**) <br />
 <details><summary><b>Instructions for Emulated Device</b></summary>
@@ -50,12 +50,12 @@ Verify that you have the contents of the repository by listing the directory
   7. If the virtual device was created it will be displayed in the Device Manager
   ![](Documentation/Readme_Images/device_created.JPG)
     
-</details>
+</details> <br /> <br />
 
-5. Select **Run 'app'** denoted by the Green arrow (Shift+F10) <br />
+5. Select **Run 'app'** denoted by the Green arrow (Shift+F10) <br /> <br />
 ![](Documentation/Readme_Images/run_app.JPG)
 
-6. For emulated devices the emulator will launch and the Auto-Learn application will be installed <br />
+6. For emulated devices the emulator will launch and the Auto-Learn application will be installed <br /> <br />
 
 # Documentation
 * **UML diagrams** - located inside of **Increment1_UML**

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/navigation_menu1">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/user"
+            android:title="Account Settings" />
+
+    </group>
+
+    <group android:id="@+id/navigation_menu2" >
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/info"
+            android:title="Model Information" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Log out" />
+
+    </group>
+</menu>

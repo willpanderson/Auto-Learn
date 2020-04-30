@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "182260159799",
+    "firebase_url": "https://auto-learn-app.firebaseio.com",
+    "project_id": "auto-learn-app",
+    "storage_bucket": "auto-learn-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182260159799:android:1bd9fd9167d0f3d96636b2",
+        "android_client_info": {
+          "package_name": "com.example.auto_learn_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182260159799-b5ltfn103hs908s8vij7u8va4s56qb4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvAHvZ36WOGJQY4l34JbmibBzLdU-6olU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182260159799-b5ltfn103hs908s8vij7u8va4s56qb4c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

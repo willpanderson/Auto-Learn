@@ -1,0 +1,6 @@
+convertible
+suv
+sedan
+van
+coupe
+truck

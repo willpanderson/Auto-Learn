@@ -23,7 +23,7 @@ Verify that you have the contents of the repository by listing the directory
 1. Launch Android Studio <br /> <br />
 ![](Documentation/Readme_Images/open_android_studio.JPG)
 
-2. Select **Open an Existing Android project** and navigate to the directory listed before <br /> <br />
+2. Select **Open an Existing Android project** and navigate to the directory listed before 
 ![](Documentation/Readme_Images/find_android_project.JPG)
 
 3. Click on the Android project denoted by the green **Android Logo** and hit **OK** <br /> <br />

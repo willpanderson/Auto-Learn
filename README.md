@@ -29,7 +29,7 @@ Verify that you have the contents of the repository by listing the directory
 3. Click on the Android project denoted by the green **Android Logo** and hit **OK** <br /> <br />
 
 4. Load an emulated device or connect a device (**Nexus 5x recommended**) <br />
-  &nbsp;&nbsp;&nbsp;<details><summary><b>Instructions for Emulated Device</b></summary>
+  <t><details><summary><b>Instructions for Emulated Device</b></summary>
   1. From the Android Studio application, up at the top select **No Devices**
   ![](Documentation/Readme_Images/no_devices.JPG)
   
@@ -50,7 +50,7 @@ Verify that you have the contents of the repository by listing the directory
   7. If the virtual device was created it will be displayed in the Device Manager
   ![](Documentation/Readme_Images/device_created.JPG)
     
-</details> &nbsp;&nbsp;&nbsp;<br /> <br />
+</details> </t> <br /> <br />
 
 5. Select **Run 'app'** denoted by the Green arrow (Shift+F10) <br /> <br />
 ![](Documentation/Readme_Images/run_app.JPG)

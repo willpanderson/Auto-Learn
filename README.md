@@ -84,6 +84,6 @@ This is the dataset that was used to train the machine learning model generated 
 Contains a google Collab with the code for our custom machine learning model. This model is currently being developed.
 Our current work can be found on our [Google Shared Drive](https://drive.google.com/open?id=1_GNGbpxACoNOLmNrdFIqik332ICB5RcJ)
 
-To get started click on the **autolearn_model.ipynb** file to open the Google Colab with the current model code.
+To get started click on the **autolearn_model.ipynb** in the Shared Drive.
 
 

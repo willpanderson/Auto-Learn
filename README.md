@@ -30,13 +30,14 @@ Verify that you have the contents of the repository by listing the directory
 
 4. Load an emulated device or connect a device (**Nexus 5x recommended**) <br />
   <details><summary><b>Instructions for Emulated Device</b></summary>
+  
   1. From the Android Studio application, up at the top select **No Devices**
   ![](Documentation/Readme_Images/no_devices.JPG)
   
   2. Select **Open AVD Manager**
   ![](Documentation/Readme_Images/device_manager.JPG)
  
-  3. From Device Manager select **Create Virtual Device**
+  3. From Device Manager select **Create Virtual Device**  <br /> <br />
   
   4. Select a device (**Nexus 5X** for testing purposes) and click **Next**
   ![](Documentation/Readme_Images/select_device.JPG)

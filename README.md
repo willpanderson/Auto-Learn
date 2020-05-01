@@ -50,7 +50,7 @@ Verify that you have the contents of the repository by listing the directory
   7. If the virtual device was created it will be displayed in the Device Manager
   ![](Documentation/Readme_Images/device_created.JPG)
     
-</details> <br /> <br />
+</details> &nbsp;&nbsp;&nbsp;<br /> <br />
 
 5. Select **Run 'app'** denoted by the Green arrow (Shift+F10) <br /> <br />
 ![](Documentation/Readme_Images/run_app.JPG)

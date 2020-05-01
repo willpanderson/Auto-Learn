@@ -20,6 +20,7 @@ Physical devices that have been used to test our application include:
 # AutoLearnApp
 ### Prerequisites
 * **Android Studio** must be installed ([Installation Instructions](https://developer.android.com/studio))
+* **Git** must be installed ([Installation Instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
 
 ### Cloning the repository
 From the cmd prompt or PowerShell type in the instruction 
@@ -84,7 +85,7 @@ This is the dataset that was used to train the machine learning model generated 
 Contains a google Collab with the code for our custom machine learning model. This model is currently being developed.
 Our current work can be found on our [Google Shared Drive](https://drive.google.com/open?id=1_GNGbpxACoNOLmNrdFIqik332ICB5RcJ)
 
-To get started click on the **autolearn_model.ipynb** in the Shared Drive.
+* To get started click on the **autolearn_model.ipynb** in the Shared Drive.
 
 ### TF_Model
 * **autolearn_model.ipynb** - local copy of the colab (**must use Google Colab**) 

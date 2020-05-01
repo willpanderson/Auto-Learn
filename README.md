@@ -8,7 +8,7 @@ GitHub was used to host our git repository, it contains the following items:
 * **Machine Learning** - Dataset and ML material
 
 Please follow the instructions below to get started testing our application.
-When testing our application ensure that the minimum Android version is set to **7.0.0 Nougat**
+When testing our application ensure that the **minimum Android version** is set to **7.0.0 Nougat**
 (API level 24). We recommend using a **Nexus 5X** emulator for testing.
 
 Physical devices that have been used to test our application include:

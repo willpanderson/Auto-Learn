@@ -6,6 +6,7 @@ GitHub was used to host our git repository, it contains the following items:
 * **AutoLearnApp** - Android studio project
 * **Documentation** - Project Documentation
 * **Machine Learning** - Dataset and ML material
+* **README.md** - Project description and instructions
 
 Please follow the instructions below to get started testing our application.
 When testing our application ensure that the **minimum Android version** is set to **7.0.0 Nougat**

@@ -72,5 +72,6 @@ This is the dataset that was used to train the machine learning model generated 
 
 ### TF_Model
 Contains a google Collab with the code for our custom machine learning model. This model is currently being developed.
+Our current work can be found on our [Google Shared Drive](https://drive.google.com/open?id=1_GNGbpxACoNOLmNrdFIqik332ICB5RcJ).
 
 

@@ -3,8 +3,8 @@ Auto-Learn is a machine learning Android application for CSE3310: Fundamentals o
 
 Collaborators to this repository include:
 
-Ryan Laurents 
-Edrik Aguilera
+**Ryan Laurents** 
+**Edrik Aguilera**
 
 GitHub was used to host our git repository, it contains the following items:
 

@@ -1,5 +1,10 @@
 # Auto-Learn Introduction
-Auto-Learn is a machine learning Android application for our CSE3310: Fundamentals of Software Engineering class taken in Spring 2020. 
+Auto-Learn is a machine learning Android application for CSE3310: Fundamentals of Software Engineering Spring 2020 class. 
+
+Collaborators to this repository include:
+
+Ryan Laurents 
+Edrik Aguilera
 
 GitHub was used to host our git repository, it contains the following items:
 

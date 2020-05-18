@@ -1,5 +1,5 @@
-# Auto-Learn Introduction
-Auto-Learn is a machine learning Android application for CSE3310: Fundamentals of Software Engineering Spring 2020 class. 
+# Auto-Learn Pro Introduction
+Auto-Learn Pro is a machine learning Android application for our Fundamentals of Software Engineering Spring 2020 class.
 
 Collaborators to this repository include:
 
@@ -34,7 +34,7 @@ Physical devices that have been used to test our application include:
 
 ### Cloning the repository
 From the cmd prompt or PowerShell type in the instruction 
-**git clone https://github.com/willpanderson/Auto-Learn.git**
+**git clone https://github.com/willpanderson/Auto-Learn-Pro.git**
 ![](Documentation/Readme_Images/clone_repo.JPG)
 
 Verify that you have the contents of the repository by listing the directory
@@ -77,7 +77,7 @@ Verify that you have the contents of the repository by listing the directory
 5. Select **Run 'app'** denoted by the Green arrow (Shift+F10) <br /> <br />
 ![](Documentation/Readme_Images/run_app.JPG)
 
-6. For emulated devices the emulator will launch and the Auto-Learn application will be installed <br /> <br />
+6. For emulated devices the emulator will launch and the Auto-Learn Pro application will be installed <br /> <br />
 
 # Documentation
 * **UML diagrams** - located inside of **Increment1_UML**

@@ -61,18 +61,21 @@ Physical devices that have been used to test our application include:
 * **Git** must be installed ([Installation Instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
 
 ### Cloning the repository
+#### Windows
 From the cmd prompt or PowerShell type in the instruction 
 **git clone https://github.com/willpanderson/Auto-Learn-Pro.git**
-![](Documentation/Readme_Images/clone_repo.JPG)
-<details><summary><b>Instructions for Linux</b></summary>
-![](Documentation/Readme_Images/clone_repo.png)
- </details> 
+![](Documentation/Readme_Images/clone_repo.JPG) <br />
 
 Verify that you have the contents of the repository by listing the directory
 ![](Documentation/Readme_Images/list_repo.JPG)
-<details><summary><b>Instructions for Linux</b></summary>
+
+#### Linux
+From the terminal type in the instruction
+**git clone https://github.com/willpanderson/Auto-Learn-Pro.git**
+![](Documentation/Readme_Images/clone_repo.png)
+
+Verify that you have the contents of the repository by listing the directory
 ![](Documentation/Readme_Images/list_repo.png)
- </details>
 
 ### Launching the Android Application
 1. Launch Android Studio <br /> <br />

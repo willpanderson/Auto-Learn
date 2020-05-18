@@ -3,7 +3,7 @@ Auto-Learn Pro is a machine learning Android application for our Fundamentals of
 
 **REVISION** Auto-Learn has been renamed to Auto-Learn Pro. 
 
-             There are now 12 Classifications:
+ Eventually, there will be a total of 12 Classifications:
              
              * Estate/Wagon
              

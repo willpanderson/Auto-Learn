@@ -63,10 +63,16 @@ Physical devices that have been used to test our application include:
 ### Cloning the repository
 From the cmd prompt or PowerShell type in the instruction 
 **git clone https://github.com/willpanderson/Auto-Learn-Pro.git**
-![](Documentation/Readme_Images/clone_repo.png)
+![](Documentation/Readme_Images/clone_repo.JPG)
+<details><summary><b>Instructions for Linux</b></summary>
+        ![](Documentation/Readme_Images/clone_repo.png)
+ </details> <br />
 
 Verify that you have the contents of the repository by listing the directory
-![](Documentation/Readme_Images/list_repo.png)
+![](Documentation/Readme_Images/list_repo.JPG)
+<details><summary><b>Instructions for Linux</b></summary>
+        ![](Documentation/Readme_Images/list_repo.png)
+ </details> <br />
 
 ### Launching the Android Application
 1. Launch Android Studio <br /> <br />

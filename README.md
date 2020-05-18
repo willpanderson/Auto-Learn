@@ -1,7 +1,7 @@
 # Auto-Learn Pro Introduction
 Auto-Learn Pro is a machine learning Android application for our Fundamentals of Software Engineering class.
 
-**REVISION** Auto-Learn has been renamed to Auto-Learn Pro. 
+**REVISION 05/17/2020 ** Auto-Learn has been renamed to Auto-Learn Pro. 
 
  Eventually, there will be a total of 12 Classifications:
              

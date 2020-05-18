@@ -65,14 +65,14 @@ From the cmd prompt or PowerShell type in the instruction
 **git clone https://github.com/willpanderson/Auto-Learn-Pro.git**
 ![](Documentation/Readme_Images/clone_repo.JPG)
 <details><summary><b>Instructions for Linux</b></summary>
-![](https://github.com/willpanderson/Auto-Learn-Pro/tree/master/Documentation/Readme_Images/clone_repo.png)
- </details> <br />
+![](Documentation/Readme_Images/clone_repo.png)
+ </details> 
 
 Verify that you have the contents of the repository by listing the directory
 ![](Documentation/Readme_Images/list_repo.JPG)
 <details><summary><b>Instructions for Linux</b></summary>
- ![](https://github.com/willpanderson/Auto-Learn-Pro/tree/master/Documentation/Readme_Images/list_repo.png)
- </details> <br />
+![](Documentation/Readme_Images/list_repo.png)
+ </details>
 
 ### Launching the Android Application
 1. Launch Android Studio <br /> <br />

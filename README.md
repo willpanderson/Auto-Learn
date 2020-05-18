@@ -2,18 +2,31 @@
 Auto-Learn Pro is a machine learning Android application for our Fundamentals of Software Engineering Spring 2020 class.
 
 **REVISION** Auto-Learn has been renamed to Auto-Learn Pro. 
-             There are now 12 Classifications
+
+             There are now 12 Classifications:
+             
              * Estate/Wagon
+             
              * Minivan
+             
              * Hardtop Convertible
+             
              * Motorcycle
+             
              * Bus
+             
              * SUV
+             
              * Truck
+             
              * Soft-top Convertible
+             
              * Van
+             
              * Saloon/Sedan
+             
              * Coupe
+             
              * Hatchback
 
 Collaborators to this repository include:

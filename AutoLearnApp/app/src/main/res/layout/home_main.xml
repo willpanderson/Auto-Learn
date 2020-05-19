@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:lineSpacingExtra="14sp"
             android:paddingLeft="50dp"
-            android:text="Auto Learn"
+            android:text="Auto Learn Pro"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="36sp"

@@ -23,7 +23,7 @@ Collaborators to this repository include:
 
 **Ryan Laurents (https://github.com/laurentsR)** 
 
-
+**Jonathan Padilla-Vences (https://github.com/jonathanpv)**
 
 GitHub was used to host our git repository, it contains the following items:
 

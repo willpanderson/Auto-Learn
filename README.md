@@ -1,5 +1,5 @@
 # Auto-Learn Introduction
-Auto-Learn is a machine learning Android application for our Fundamentals of Software Engineering class.
+Auto-Learn is a machine learning Android application for our Fundamentals of Software Engineering class that we took in Spring 2020.
 
  There are six possible classifications for Auto-Learn to classify your image:
              
